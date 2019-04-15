@@ -1,0 +1,45 @@
+version: "3.7"
+
+services:
+    nginx:
+        container_name: app-nginx
+        image: nginx
+        volumes:
+            - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+        ports:
+            - "80:80"
+        command: /bin/bash -c "envsubst < /etc/nginx/conf.d/nginx.conf && exec nginx -g 'daemon off;'"
+        depends_on:
+            # - react-app
+            - node-app
+        networks:
+            - appnet
+    # react-app:
+    #   container_name: app-react
+    #   networks:
+    #     - appnet
+    #   build:
+    #     context: .
+    #     dockerfile: Dockerfile
+    #   volumes:
+    #     - '.:/usr/src/app'
+    #     - '/usr/src/app/node_modules'
+    #   environment:
+    #     - NODE_ENV=development
+    #   networks:
+    #     - appnet
+    node-app:
+        container_name: app-server
+        ports:
+            - "3030:3030"
+        build:
+            context: ./server
+            dockerfile: Dockerfile
+        volumes:
+            - "./server:/usr/src/server"
+            - "/usr/src/server/node_modules"
+        environment:
+            - NODE_ENV=development
+networks:
+    appnet:
+        driver: "bridge"
