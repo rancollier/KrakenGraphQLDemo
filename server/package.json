@@ -5,15 +5,21 @@
     "main": "index.js",
     "dependencies": {
         "express": "^4.16.4",
-        "helmet": "^3.15.0"
+        "helmet": "^3.15.0",
+        "mysql2": "^1.6.5",
+        "sequelize": "^5.5.0"
     },
     "devDependencies": {
-        "nodemon": "^1.18.9"
+        "nodemon": "^1.18.9",
+        "sequelize-cli": "^5.4.0"
     },
     "scripts": {
         "server": "nodemon server.js",
         "start": "node server.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "sequelize_init": "sequelize init",
+        "sequelize:migrate": "./node_modules/.bin/sequelize db:migrate",
+        "sequelize:seed": "./node_modules/.bin/sequelize db:seed:all"
     },
     "author": "",
     "license": "ISC"

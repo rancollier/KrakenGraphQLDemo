@@ -2,10 +2,12 @@ version: "3.7"
 
 services:
     nginx:
-        container_name: app-nginx
+        container_name: app-nginx-real
         image: nginx
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+        links:
+            - mysql-db
         ports:
             - "80:80"
         command: /bin/bash -c "envsubst < /etc/nginx/conf.d/nginx.conf && exec nginx -g 'daemon off;'"
@@ -28,6 +30,39 @@ services:
     #     - NODE_ENV=development
     #   networks:
     #     - appnet
+    # db:
+    #     image: mysql
+    #     command: --default-authentication-plugin=mysql_native_password
+    #     restart: always
+
+    #     environment:
+    #         MYSQL_ROOT_PASSWORD: example
+    #     ports:
+    #         - "3306:3306"
+
+    mysql-db:
+        image: mysql/mysql-server
+        container_name: mysql-db
+        command: --default-authentication-plugin=mysql_native_password
+        environment:
+            MYSQL_ROOT_PASSWORD: example
+            MYSQL_USER: dbuser
+            MYSQL_PASSWORD: dbuserpwd
+            MYSQL_DATABASE: kraken
+        volumes:
+            - "./my.conf:/etc/mysql/conf.d/config-file.cnf"
+            - "./data:/var/lib/mysql:rw"
+        ports:
+            - "3308:3306"
+        expose:
+            - "3306"
+        networks:
+            - appnet
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+            - 8030:8080
     node-app:
         container_name: app-server
         ports:
@@ -40,6 +75,10 @@ services:
             - "/usr/src/server/node_modules"
         environment:
             - NODE_ENV=development
+        networks:
+            - appnet
+volumes:
+    db_data:
 networks:
     appnet:
         driver: "bridge"
