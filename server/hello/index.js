@@ -1,25 +1,12 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
+const db = require("../models");
+const User = require("../models/user");
+const bodyParser = require("body-parser");
 
-const mysql = require("mysql2/promise");
+const Users = User(db.sequelize, db.Sequelize);
 
-async function main() {
-    // get the client
-    // const mysql = require('mysql2/promise');
-    // create the connection
-    const connection = await mysql.createConnection({
-        host: "localhost",
-        user: "root",
-        database: "test"
-    });
-    // query database
-    const [rows, fields] = await connection.execute(
-        "SELECT * FROM `table` WHERE `name` = ? AND `age` > ?",
-        ["Morty", 14]
-    );
-    return { rows, fields };
-}
-
+router.use(bodyParser.json());
 // middleware that is specific to this router
 router.use(function timeLog(req, res, next) {
     console.log("Time: ", Date.now());
@@ -31,7 +18,7 @@ router.get("/", function(req, res) {
 });
 
 router.get("/db", function(req, res) {
-    res.send(main());
+    Users.findAll().then(users => res.json(users));
 });
 
 module.exports = router;
