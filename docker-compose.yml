@@ -16,30 +16,6 @@ services:
             - node-app
         networks:
             - appnet
-    # react-app:
-    #   container_name: app-react
-    #   networks:
-    #     - appnet
-    #   build:
-    #     context: .
-    #     dockerfile: Dockerfile
-    #   volumes:
-    #     - '.:/usr/src/app'
-    #     - '/usr/src/app/node_modules'
-    #   environment:
-    #     - NODE_ENV=development
-    #   networks:
-    #     - appnet
-    # db:
-    #     image: mysql
-    #     command: --default-authentication-plugin=mysql_native_password
-    #     restart: always
-
-    #     environment:
-    #         MYSQL_ROOT_PASSWORD: example
-    #     ports:
-    #         - "3306:3306"
-
     mysql-db:
         image: mysql/mysql-server
         container_name: mysql-db
