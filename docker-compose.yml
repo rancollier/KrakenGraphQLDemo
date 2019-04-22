@@ -48,7 +48,7 @@ services:
             dockerfile: Dockerfile
         volumes:
             - "./server:/usr/src/server"
-            - "/usr/src/server/node_modules"
+            - "./server/node_modules:/usr/src/server/node_modules"
         environment:
             - NODE_ENV=development
         networks:
