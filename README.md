@@ -15,33 +15,46 @@ This project is intended as a demonstration of the GraphQL usefulness.
 ## Migration commands
 
 ### Terminal - Create model
-
-npx sequelize model:generate --name User --attributes firstName:string,lastName:string,email:string
+```sh
+$ npx sequelize model:generate --name User --attributes firstName:string,lastName:string,email:string
+```
 
 ### Terminal - Undo all
-
-npx sequelize db:migrate:undo
+```sh
+$ npx sequelize db:migrate:undo
+```
 
 ### Terminal - Undo by a particular migration
-
-npx sequelize db:migrate:undo:all --to XXXXXXXXXXXXXX-create-posts.js
+```sh
+$ npx sequelize db:migrate:undo:all --to XXXXXXXXXXXXXX-create-posts.js
+```
 
 ## Run Docker
-
-make up
-
+```sh
+$ make up
+```
 ## Run Migrations
-
-make makeMigrate
-make makeSeed
-
+```sh
+$ make makeMigrate
+$ make makeSeed
+```
+## Sequelize steps [This will need to be updated]
 1
-sequelize init
+```
+$ sequelize init
+```
+
 2 // create db
-sequelize db:create // create db
+```
+$ sequelize db:create // create db
+```
 3 // create model
-sequelize model:generate --name User --attributes firstName:string,lastName:string,email:string
+```
+$ sequelize model:generate --name User --attributes firstName:string,lastName:string,email:string
+```
 
 1
 custom migrations to make model
+```
 sequelize segenerate --name [your name]
+```
