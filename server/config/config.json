@@ -1,0 +1,25 @@
+{
+    "development": {
+        "username": "dbuser",
+        "password": "dbuserpwd",
+        "database": "kraken",
+        "host": "mysql-db",
+        "dialect": "mysql"
+    },
+    "test": {
+        "username": "root",
+        "password": null,
+        "database": "database_test",
+        "host": "127.0.0.1",
+        "port": "8030",
+        "dialect": "mysql"
+    },
+    "production": {
+        "username": "root",
+        "password": null,
+        "database": "database_production",
+        "host": "127.0.0.1",
+        "port": "8030",
+        "dialect": "mysql"
+    }
+}
