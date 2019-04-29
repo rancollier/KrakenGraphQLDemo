@@ -22,7 +22,8 @@
         "test": "echo \"Error: no test specified\" && exit 1",
         "sequelize_init": "sequelize init",
         "sequelize:migrate": "./node_modules/.bin/sequelize db:migrate",
-        "sequelize:seed": "./node_modules/.bin/sequelize db:seed:all"
+        "sequelize:seed": "./node_modules/.bin/sequelize db:seed:all",
+        "sequelize:model:generate": "./node_modules/.bin/sequelize model:generate"
     },
     "author": "",
     "license": "ISC"
