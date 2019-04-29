@@ -2,10 +2,11 @@ version: "3.7"
 
 services:
     nginx:
-        container_name: app-nginx-real
+        container_name: app-nginx
         image: nginx
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
+            - ./static-html:/usr/share/nginx/html
         links:
             - mysql-db
         ports:
@@ -34,11 +35,6 @@ services:
             - "3306"
         networks:
             - appnet
-    adminer:
-        image: adminer
-        restart: always
-        ports:
-            - 8030:8080
     node-app:
         container_name: app-server
         ports:
