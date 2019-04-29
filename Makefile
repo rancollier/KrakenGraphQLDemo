@@ -12,8 +12,8 @@ delete_images: ## Delete all images
 	docker rmi $(docker images -q)
 bash_server:
 	docker exec -it app-server /bin/bash
-bash_x:
-	docker exec -it app-nginx-real /bin/bash
+bash_nginx:
+	docker exec -it app-nginx /bin/bash
 makeMigrate:
 	docker exec app-server npm run sequelize:migrate
 makeSeed: 
