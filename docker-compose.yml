@@ -7,15 +7,12 @@ services:
         volumes:
             - ./nginx.conf:/etc/nginx/conf.d/nginx.conf
             - ./static-html:/usr/share/nginx/html
-        links:
-            - mysql-db
-            - node-app
         ports:
-            - "80:80"
+            - "8080:8080"
         command: /bin/bash -c "envsubst < /etc/nginx/conf.d/nginx.conf && exec nginx -g 'daemon off;'"
         depends_on:
-            # - react-app
             - node-app
+            - sample-app
         networks:
             - appnet
     mysql-db:
@@ -60,9 +57,13 @@ services:
             - "./client_rc/app/node_modules:/usr/src/app/node_modules"
         ports:
             - "3000:3000"
+        expose:
+            - "3000"
         environment:
             - NODE_ENV=${NODE_ENV}
             - CHOKIDAR_USEPOLLING=true
+        networks:
+            - appnet
 
 volumes:
     db_data:

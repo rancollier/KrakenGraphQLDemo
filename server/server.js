@@ -4,8 +4,11 @@ const app = express();
 const expressGraphQL = require("express-graphql");
 const schema = require("./graphql/schema");
 const api = require("./api");
+const cors = require("cors");
 
+app.use(cors());
 app.use(helmet());
+
 const port = 3030;
 
 app.get("/", (req, res) => res.send("Hello World!"));

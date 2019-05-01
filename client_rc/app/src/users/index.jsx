@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
 import axios from "axios";
 
+import { H1 } from "../components/syles/typography";
+
 class Users extends React.Component {
     constructor(props) {
         super(props);
@@ -16,11 +18,16 @@ class Users extends React.Component {
 
     fetchUsers = () => {
         console.log("fetching");
+        this.setState({ isFetching: true });
         axios
             .get("http://localhost:3030/api/users")
-            .then(function(response) {
-                // handle success
+            .then(response => {
                 console.log(response);
+                this.setState({
+                    isFetching: false,
+                    users: response.data
+                });
+                return response;
             })
             .catch(function(error) {
                 // handle error
@@ -33,8 +40,12 @@ class Users extends React.Component {
     render() {
         return (
             <Fragment>
-                {this.state.isFetching && <h1>is fetching</h1>}
-                {!this.state.isFetching && <h1>is not fetching</h1>}
+                {this.state.isFetching && <H1>is fetching</H1>}
+                {!this.state.isFetching && <H1>is not fetching</H1>}
+                {this.state.users.length &&
+                    this.state.users.map((user, index) => {
+                        return <div key={user.id}>{user.firstName}</div>;
+                    })}
             </Fragment>
         );
     }
