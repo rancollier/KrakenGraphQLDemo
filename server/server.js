@@ -5,6 +5,7 @@ const expressGraphQL = require("express-graphql");
 const schema = require("./graphql/schema");
 const api = require("./api");
 const cors = require("cors");
+const methodOverride = require("method-override");
 
 app.use(cors());
 app.use(helmet());
@@ -20,5 +21,11 @@ app.use(
     })
 );
 app.use("/api", api);
-
+app.use(function(err, req, res, next) {
+    if (req.xhr) {
+        res.status(500).send({ error: err });
+    } else {
+        next(err);
+    }
+});
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));

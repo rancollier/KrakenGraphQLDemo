@@ -15,6 +15,22 @@ const queries = {
             })
             .then(results => results);
     },
+    getUserByLogin: ({ userName, password }) => {
+        return db.sequelize.query(
+            `
+            SELECT firstName, lastName 
+            FROM users 
+            WHERE 
+                firstName=:userName
+            AND
+                password=:password
+        `,
+            {
+                replacements: { userName, password },
+                type: db.sequelize.QueryTypes.SELECT
+            }
+        );
+    },
     getAllProducts: () => {
         return db.sequelize
             .query("SELECT * FROM products", {

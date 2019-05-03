@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import axios from "axios";
-
+import Api from "../components/api";
 import { H1 } from "../components/syles/typography";
 
 class Users extends React.Component {
@@ -19,23 +19,31 @@ class Users extends React.Component {
     fetchUsers = () => {
         console.log("fetching");
         this.setState({ isFetching: true });
-        axios
-            .get("http://localhost:3030/api/users")
-            .then(response => {
-                console.log(response);
-                this.setState({
-                    isFetching: false,
-                    users: response.data
-                });
-                return response;
-            })
-            .catch(function(error) {
-                // handle error
-                console.log(error);
-            })
-            .then(function() {
-                // always executed
+        Api.get("api/users").then(response => {
+            console.log(response);
+            this.setState({
+                isFetching: false,
+                users: response.data
             });
+            return response;
+        });
+        // axios
+        //     .get("http://localhost:3030/api/users")
+        //     .then(response => {
+        //         console.log(response);
+        //         this.setState({
+        //             isFetching: false,
+        //             users: response.data
+        //         });
+        //         return response;
+        //     })
+        //     .catch(function(error) {
+        //         // handle error
+        //         console.log(error);
+        //     })
+        //     .then(function() {
+        //         // always executed
+        //     });
     };
     render() {
         return (
