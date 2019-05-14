@@ -6,6 +6,12 @@ router.get("/", function(req, res) {
     queries
         .getAllProducts()
         .then(products => {
+            res.cookie('test','tester')
+            res.cookie("cookie1", "This is my first cookie", {
+                // signed: true,
+                httpOnly: true
+            });
+
             res.json(products);
         })
         .catch(err => {

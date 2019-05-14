@@ -6,6 +6,7 @@ import "./App.css";
 function App() {
     return (
         <div className="App">
+        <h1>HOST:{process.env.REACT_APP_TEST_VAR}</h1>
             <AppRouter />
             {/* <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />

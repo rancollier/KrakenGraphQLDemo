@@ -6,6 +6,7 @@ import {
     Redirect
 } from "react-router-dom";
 import Users from "../users";
+import Products from "../products";
 import Login from "../login";
 import Account from "../account";
 import ProtectedRoute from "./components/protectedRoute";
@@ -34,16 +35,24 @@ const AppRouter = () => {
                             <Link to="/users">Users</Link>
                         </li>
                         <li>
+                            <Link to="/products">Products</Link>
+                        </li>
+                        <li>
                             <Link to="/account">Account</Link>
                         </li>
                         <li>
-                            <Link to="login">Login</Link>
+                            <Link to="/login">Login</Link>
+                        </li>
+                        <li>
+                            <Link to="/login/register">Register</Link>
                         </li>
                     </ul>
                 </nav>
                 <Route path="/" exact component={Index} />
                 <Route path="/about" component={About} />
                 <Route path="/users" component={Users} />
+                <Route path="/products" component={Products} />
+
                 {/* <Route path="/account" component={Account} /> */}
                 <ProtectedRoute path="/account" component={Account} />
                 <Route path="/login" component={Login} />

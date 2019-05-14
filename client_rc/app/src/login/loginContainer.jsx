@@ -37,9 +37,13 @@ class LoginContainer extends React.Component {
     };
     doSubmitAuthentication = () => {
         const { userName, password } = this.state;
+        console.table(this.state);
         this.setState({ isSubmitting: true });
-        Api.put("api/login", { userName, password })
-            .then(response => {})
+        Api.put("api/loginUser", { firstName: userName, password })
+            .then(response => {
+                debugger;
+                console.log(response.token);
+            })
             .catch(error => {
                 console.log(error);
             })
@@ -58,13 +62,16 @@ class LoginContainer extends React.Component {
         const showPassword = this.showPassword;
         const handleSubmit = this.handleSubmit;
         return (
-            <LoginComponent
-                userNameOnChange={userNameOnChange}
-                passwordOnChange={passwordOnChange}
-                handleSubmit={handleSubmit}
-                isSubmitDisabled={isSubmitDisabled}
-                showPassword={showPassword}
-            />
+            <div>
+                <h1>login</h1>
+                <LoginComponent
+                    userNameOnChange={userNameOnChange}
+                    passwordOnChange={passwordOnChange}
+                    handleSubmit={handleSubmit}
+                    isSubmitDisabled={isSubmitDisabled}
+                    showPassword={showPassword}
+                />
+            </div>
         );
     }
 }

@@ -1,5 +1,20 @@
 const db = require("./models");
 const queries = {
+    getUserByUsername: ({ firstName }) => {
+        return db.sequelize
+            .query(
+                `
+            SELECT * 
+            FROM users 
+            WHERE firstName=:firstName
+            limit 1`,
+                {
+                    replacements: { firstName },
+                    type: db.sequelize.QueryTypes.SELECT
+                }
+            )
+            .then(results => results);
+    },
     getAllUsers: () => {
         return db.sequelize
             .query("SELECT * FROM users", {
