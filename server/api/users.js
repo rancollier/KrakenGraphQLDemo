@@ -9,9 +9,10 @@ router.get("/", function(req, res) {
     // console.log("cookies", req.cookies);
     // console.log("Signed : ", req.signedCookies);
     // console.log("Signed Cookies: ", req.signedCookies.cookie1);
-    console.log(req.connection)
+    console.log("SOMETHING")
     console.log(req.signedCookies["session"]);
     console.log(req.signedCookies["cookie1"]);
+    console.log(req.cookies)
     return users.findAll().then(users => {
         // res.cookie("cookie1", "This is my first cookie", { signed: true });
         res.json(users);

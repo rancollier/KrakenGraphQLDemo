@@ -4,9 +4,16 @@ import AppRouter from "./routes";
 import "./App.css";
 
 function App() {
+    try{
+        console.log('try')
+        console.log(process, process.env);
+    }
+    catch(err) {
+        console.log(err)
+    }
     return (
         <div className="App">
-        <h1>HOST:{process.env.REACT_APP_TEST_VAR}</h1>
+        
             <AppRouter />
             {/* <header className="App-header">
                 <img src={logo} className="App-logo" alt="logo" />

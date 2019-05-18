@@ -12,8 +12,13 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 COPY ./app/package.json /usr/src/app/package.json
 RUN npm install
 
+
+
+
+
+
 # start app
-CMD ["REACT_APP_TEST_VAR=https://staging.api.com", "npm", "start"]
+CMD ["npm", "start"]
 
 
 # FROM node:10.0.0

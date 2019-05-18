@@ -1,5 +1,4 @@
 import React, { Fragment } from "react";
-import axios from "axios";
 import Api from "../components/api";
 import { H1 } from "../components/syles/typography";
 
@@ -17,9 +16,10 @@ class Users extends React.Component {
     }
 
     fetchUsers = () => {
-        console.log("fetching");
+        const url= `${process.env.REACT_APP_API_URL}/users`;
+        console.log("fetching",url);
         this.setState({ isFetching: true });
-        Api.get("api/users").then(response => {
+        Api.get(url).then(response => {
             console.log(response);
             this.setState({
                 isFetching: false,

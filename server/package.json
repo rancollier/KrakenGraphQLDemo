@@ -27,8 +27,8 @@
         "sequelize-cli": "^5.4.0"
     },
     "scripts": {
-        "server": "nodemon server.js --harmony",
-        "start": "node server.js --harmony",
+        "server": "nodemon --inspect=0.0.0.0 server.js --harmony",
+        "start": "node server.js",
         "test": "echo \"Error: no test specified\" && exit 1",
         "sequelize_init": "sequelize init",
         "sequelize:migrate": "./node_modules/.bin/sequelize db:migrate",

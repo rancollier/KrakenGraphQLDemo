@@ -11,40 +11,27 @@ const cookieParser = require("cookie-parser");
 
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
-// app.set("trust proxy", 1); // trust first proxy
+app.set('trust proxy', 1) // trust first proxy
 
-// app.use(
-//     session({
-//         name: "session",
-//         keys: ["key1", "key2"]
-//     })
-// );
-app.use(cookieParser());
-// app.use(cookieParser("mydeepdarksecret"));
-// app.use(
-//     session({
-//         name: "session",
-//         keys: ["key1", "key2"],
-//         cookie: {
-//             secure: true,
-//             httpOnly: true,
-//             domain: "example.com",
-//             path: "foo/bar",
-//             expires: expiryDate
-//         }
-//     })
-// );
+app.use(session({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 
-// var expiryDate = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+
+
+
+// app.use(cookieParser());
+
 app.use(session({
   name: 'session',
   keys: ['key1', 'key2'],
   cookie: {
-    // secure: true,
+    secure: true,
     httpOnly: true,
 
-    domain: 'http://localhost:3000/',
-    // path: 'api/prods',
+    domain: 'http://localhost:3000',
+    path: '/',
     expires: expiryDate
   }
 }))
@@ -55,8 +42,21 @@ app.use(helmet());
 app.use(cookieParser());
 const keys = ["keyboard cat"];
 const port = 3030;
+app.use(function (req, res, next) {
+    res.cookie('howdy','doody')
+
+     // secure: true,
+//     httpOnly: true,
+
+
+    next()
+  })
+
+
+
 
 app.get("/", (req, res) => res.send("Hello World!"));
+debugger;
 app.use(
     "/graphql",
     expressGraphQL({
