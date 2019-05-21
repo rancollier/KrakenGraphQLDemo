@@ -1,16 +1,16 @@
 import React, { Fragment } from "react";
 import Api from "../components/api";
 import urls from "../components/api/url";
- 
 import { H1 } from "../components/syles/typography";
 
-class Users extends React.Component {
+class Products extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             isFetching: false,
-            users: []
+            items: []
         };
+        console.log("prods",props)
     }
 
     componentDidMount() {
@@ -18,14 +18,15 @@ class Users extends React.Component {
     }
 
     fetchUsers = () => {
-        const url = urls.users();
-        console.log("fetching",url);
+       
+        const url =  (this.props.url)?  (this.props.url) : urls.products();
+        console.log("fetching", url);
         this.setState({ isFetching: true });
         Api.get(url).then(response => {
             console.log(response);
             this.setState({
                 isFetching: false,
-                users: response.data
+                items: response.data
             });
             return response;
         });
@@ -35,13 +36,13 @@ class Users extends React.Component {
             <Fragment>
                 {this.state.isFetching && <H1>is fetching</H1>}
                 {!this.state.isFetching && <H1>is not fetching</H1>}
-                {this.state.users.length &&
-                    this.state.users.map((user, index) => {
-                        return <div key={user.id}>{user.firstName}</div>;
+                {this.state.items.length &&
+                    this.state.items.map((user, index) => {
+                        return <div key={user.id}>{user.title}</div>;
                     })}
             </Fragment>
         );
     }
 }
 
-export default Users;
+export default Products;

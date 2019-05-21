@@ -1,6 +1,8 @@
 import React from "react";
 import LoginComponent from "./loginComponent";
 import Api from "../components/api";
+import urls from "../components/api/url";
+
 class LoginContainer extends React.Component {
     constructor(props) {
         super(props);
@@ -37,9 +39,9 @@ class LoginContainer extends React.Component {
     };
     doSubmitAuthentication = () => {
         const { userName, password } = this.state;
-        console.table(this.state);
+        const url = urls.loginUser();
         this.setState({ isSubmitting: true });
-        Api.put("api/loginUser", { firstName: userName, password })
+        Api.put(url, { firstName: userName, password })
             .then(response => {
                 debugger;
                 console.log(response.token);

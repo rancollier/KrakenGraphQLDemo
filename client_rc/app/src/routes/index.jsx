@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 import Users from "../users";
 import Products from "../products";
+import urls from "../components/api/url"
+
 import Login from "../login";
 import Account from "../account";
 import ProtectedRoute from "./components/protectedRoute";
@@ -38,6 +40,9 @@ const AppRouter = () => {
                             <Link to="/products">Products</Link>
                         </li>
                         <li>
+                            <Link to="/protectedProducts">ProtectedProducts</Link>
+                        </li>
+                        <li>
                             <Link to="/account">Account</Link>
                         </li>
                         <li>
@@ -51,7 +56,8 @@ const AppRouter = () => {
                 <Route path="/" exact component={Index} />
                 <Route path="/about" component={About} />
                 <Route path="/users" component={Users} />
-                <Route path="/products" component={Products} />
+                <Route path="/products" component={Products} url="xxxx" />
+                <Route path="/protectedProducts" component={()=>(<Products url={urls.pretectedProds()}/>) }/>
 
                 {/* <Route path="/account" component={Account} /> */}
                 <ProtectedRoute path="/account" component={Account} />

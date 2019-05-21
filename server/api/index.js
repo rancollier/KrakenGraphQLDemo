@@ -5,10 +5,11 @@ const Users = require("./users");
 const Products = require("./products");
 const Login = require("./login");
 const passport = require("passport");
+const Protect = require("./login/findUser");
 const RegisterUser = require("./login/regisgterUser");
 require("./config/passport");
 
-const FindUser = require("./login/FindUser2");
+const FindUser = require("./login/findUser");
 const LoginUser = require("./login/loginUser");
 router.use(bodyParser.json());
 router.use(passport.initialize());
@@ -26,6 +27,7 @@ router.use("/loginUser", LoginUser);
 router.use("/registerUser", RegisterUser);
 router.use("/users", Users);
 router.use("/prods", Products);
-// router.use("/login", Login);
+router.use('/pretectedProds',passport.authenticate('jwt', {session: false}), Products);
+// router.use('/pretectedProds',Protect, Products);
 
 module.exports = router;
