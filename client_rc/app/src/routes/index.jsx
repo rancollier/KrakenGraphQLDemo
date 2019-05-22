@@ -48,6 +48,7 @@ const AppRouter = () => {
                         <li>
                             <Link to="/login">Login</Link>
                         </li>
+                        <li><buton type="button" onClick={()=>{alert('logout')}}>Log out</buton></li>
                         <li>
                             <Link to="/login/register">Register</Link>
                         </li>

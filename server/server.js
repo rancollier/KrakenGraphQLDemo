@@ -10,15 +10,10 @@ const methodOverride = require("method-override");
 const cookieParser = require("cookie-parser");
 
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
-
+// TODO remove?
 app.set('trust proxy', 1) // trust first proxy
 
-
-
-
-
-// app.use(cookieParser());
-
+// TODO remove?
 app.use(session({
   name: 'session',
   keys: ['key1', 'key2'],
@@ -38,6 +33,8 @@ app.use(helmet());
 app.use(cookieParser());
 const keys = ["keyboard cat"];
 const port = 3030;
+
+// TODO remove?
 app.use(function (req, res, next) {
     res.cookie('howdy','doody')
 

@@ -17,6 +17,16 @@ services:
             - appnet
     certbot:
         image: certbot/certbot
+    redis-app:
+        container_name: cache
+        build:
+            context: ./redis
+            dockerfile: Dockerfile
+        expose:
+            - 6379
+        networks:
+            - appnet
+
     mysql-db:
         image: mysql/mysql-server
         container_name: mysql-db
@@ -47,6 +57,7 @@ services:
             - "./server:/usr/src/server"
             - "./server/node_modules:/usr/src/server/node_modules"
         environment:
+            - REDIS_URL=redis-app://cache
             - NODE_ENV=${NODE_ENV}
         networks:
             - appnet

@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const queries = require("../db/queries");
-
+const queries = require("../../db/queries");
+const redis = require("../../redis")
 router.get("/", function(req, res) {
 debugger;
     queries
@@ -21,15 +21,5 @@ debugger;
         });
 });
 
-router.get("/:userId", function(req, res) {
-    return queries
-        .getProductsByUserId(req.params)
-        .then(response => {
-            res.json(response);
-        })
-        .catch(err => {
-            res.send(err);
-        });
-});
 
 module.exports = router;
