@@ -1,8 +1,8 @@
 const jwtSecret = require("./jwtConfig");
-// const bcrypt = require("bcrypt-nodejs");
 const bcrypt = require("bcrypt");
 const { users } = require("../../db/models");
 const BCRYPT_SALT_ROUNDS = 12;
+const redisClient = require("../../redis")
 
 const passport = require("passport"),
     localStrategy = require("passport-local").Strategy,
@@ -104,12 +104,10 @@ passport.use(
     )
 );
 
-
 var cookieExtractor = function(req) {
     var token = null;
-    debugger;
     if (req && req.cookies) {
-        token = req.cookies['token'];
+        token = req.cookies["token"];
     }
     return token;
 };
@@ -119,27 +117,35 @@ const opts = {
     secretOrKey: jwtSecret.secret
 };
 
-
-
-
 passport.use(
     "jwt",
+    
     new JWTstrategy(opts, (jwt_payload, done) => {
         try {
-            users.findOne({
-                where: {
-                    id: jwt_payload.id
-                }
-            }).then(user => {
-                if (user) {
-                    console.log("user found in db in passport");
-                    // note the return removed with passport JWT - add this return for passport local
-                    done(null, user);
-                } else {
-                    console.log("user not found in db");
-                    done(null, false);
-                }
-            });
+            // debugger;
+            // if(async()=> await !redisClient('xyz')) {
+            //     done(null, false);
+            // }
+            users
+                .findOne({
+                    where: {
+                        id: jwt_payload.id
+                    }
+                })
+                .then(user => {
+                    if (user) {
+                        console.log("user found in db in passport");
+                        const exp = jwt_payload.hasOwnProperty("exp")
+                            ? jwt_payload.exp
+                            : new Date() / 1000;
+                        console.log(exp);
+                        // note the return removed with passport JWT - add this return for passport local
+                        done(null, {...user, tokenExp:exp});
+                    } else {
+                        console.log("user not found in db");
+                        done(null, false);
+                    }
+                });
         } catch (err) {
             done(err);
         }

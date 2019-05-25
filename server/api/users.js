@@ -5,7 +5,7 @@ const sequelize = require("../db/models/user");
 const { users } = require("../db/models");
 
 router.get("/", function(req, res) {
-    
+    debugger;
     console.log("SOMETHING")
     console.log("session",req.signedCookies["session"]);
     console.log("cookie1",req.signedCookies["cookie1"]);

@@ -5,6 +5,10 @@ const { users } = require("../../db/models");
 const jwtSecret = require("../config/jwtConfig");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
+// const OneHour = Math.floor(Date.now() / 1000) + 60 * 60;
+// const ThiryMin = Math.floor(Date.now() / 1000) + 60 * 30;
+const TenMin = () => Math.floor(Date.now() / 1000) + 60 * 10;
+
 router.put("/", function(req, res, next) {
     console.log(req.body);
     passport.authenticate("login", (err, user, info) => {
@@ -27,30 +31,24 @@ router.put("/", function(req, res, next) {
                         console.log(
                             "findUser and set create cookie and apply token"
                         );
-                        // res.cookie("cart", { items: [1, 2, 3] });
+                        const exp = TenMin();
                         const token = jwt.sign(
-                            { id: user.id },
+                            {
+                                exp,
+                                id: user.id
+                            },
                             jwtSecret.secret
                         );
-                        // res.cookie("token", "tobi", { signed: true });
-                        // res.cookie("cookie1", "This is my first cookie", {
-                        //     signed: true,
-                        //     maxAge: 1000 * 60 * 60 * 24 * 7,
-                        //     httpOnly: true
-                        // });
+                    
 
                         res.cookie("token", token, {
-                            httpOnly: true,
+                            httpOnly: true
                             // secure: true
                         });
-                        // res.cookie("rememberme", "123456", {
-                        //     expires: new Date(Date.now() + 900000),
-                        //     httpOnly: true
-                        // });
-                        // console.log("set cookies");
+                        res.cookie("tokenExpiration", exp);
+                  
                         res.status(200).send({
                             auth: true,
-                            token: token,
                             message: "user found & logged in"
                         });
                     });

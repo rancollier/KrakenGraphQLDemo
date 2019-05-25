@@ -7,8 +7,8 @@ import {
 } from "react-router-dom";
 import Users from "../users";
 import Products from "../products";
-import urls from "../components/api/url"
-
+import urls from "../components/api/url";
+import handleLogOut from "./components/logout";
 import Login from "../login";
 import Account from "../account";
 import ProtectedRoute from "./components/protectedRoute";
@@ -40,7 +40,9 @@ const AppRouter = () => {
                             <Link to="/products">Products</Link>
                         </li>
                         <li>
-                            <Link to="/protectedProducts">ProtectedProducts</Link>
+                            <Link to="/protectedProducts">
+                                ProtectedProducts
+                            </Link>
                         </li>
                         <li>
                             <Link to="/account">Account</Link>
@@ -48,7 +50,14 @@ const AppRouter = () => {
                         <li>
                             <Link to="/login">Login</Link>
                         </li>
-                        <li><buton type="button" onClick={()=>{alert('logout')}}>Log out</buton></li>
+                        <li>
+                            <button
+                                type="button"
+                                onClick={handleLogOut}
+                            >
+                                Log out
+                            </button>
+                        </li>
                         <li>
                             <Link to="/login/register">Register</Link>
                         </li>
@@ -58,7 +67,10 @@ const AppRouter = () => {
                 <Route path="/about" component={About} />
                 <Route path="/users" component={Users} />
                 <Route path="/products" component={Products} url="xxxx" />
-                <Route path="/protectedProducts" component={()=>(<Products url={urls.pretectedProds()}/>) }/>
+                <Route
+                    path="/protectedProducts"
+                    component={() => <Products url={urls.pretectedProds()} />}
+                />
 
                 {/* <Route path="/account" component={Account} /> */}
                 <ProtectedRoute path="/account" component={Account} />
