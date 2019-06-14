@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "./logo.svg";
 import AppRouter from "./routes";
+import ResizeContext from "./components/DocumentSizeListener";
+import AppStateProvider, {AppStateConsumer} from "./components/AppContext"
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
+import { blue, indigo } from '@material-ui/core/colors';
 import "./App.css";
+
+const theme = createMuiTheme({
+    palette: {
+      secondary: {
+        main: blue[900]
+      },
+      primary: {
+        main: indigo[700]
+      }
+    },
+    typography: {
+      // Use the system font instead of the default Roboto font.
+      fontFamily: [
+        '"Lato"',
+        'sans-serif'
+      ].join(',')
+    }
+  });
 
 function App() {
     try{
@@ -11,27 +33,29 @@ function App() {
     catch(err) {
         console.log(err)
     }
+
+    const { primaryNavDrawerShow, setPrimaryNavDrawerShow } = AppStateConsumer();
+ 
     return (
         <div className="App">
-        
-            <AppRouter />
-            {/* <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-                <p>
-                    Edit <code>src/App.js</code> and save to reload.
-                </p>
-                done
-                <a
-                    className="App-link"
-                    href="https://reactjs.org"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                >
-                    Learn React
-                </a>
-            </header> */}
+            <MuiThemeProvider theme={theme}>
+                <AppRouter /> 
+            </MuiThemeProvider>
+  
         </div>
+        
     );
 }
 
-export default App;
+
+const CustomProviders = () => {
+    return (
+        <ResizeContext>
+          <AppStateProvider>
+            <App/>
+          </AppStateProvider>
+        </ResizeContext>
+    )
+            
+}
+export default CustomProviders;

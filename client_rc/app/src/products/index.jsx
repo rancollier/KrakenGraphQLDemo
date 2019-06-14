@@ -1,48 +1,23 @@
 import React, { Fragment } from "react";
-import Api from "../components/api";
-import urls from "../components/api/url";
-import { H1 } from "../components/syles/typography";
+import ProductDetail from "./ProductDetail";
+import ProductList from "./ProductList";
+import { Link, Switch, Route } from "react-router-dom";
 
-class Products extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isFetching: false,
-            items: []
-        };
-        console.log("prods",props)
-    }
+const routes = props => {
+    const match = props.match;
+    return (
+        <Fragment>
+            <Switch>
+                <Route
+                    exact
+                    path={match.path}
+                    component={ProductList}
+                    {...props}
+                />
 
-    componentDidMount() {
-        this.fetchUsers();
-    }
-
-    fetchUsers = () => {
-       
-        const url =  (this.props.url)?  (this.props.url) : urls.products();
-        console.log("fetching", url);
-        this.setState({ isFetching: true });
-        Api.get(url).then(response => {
-            console.log(response);
-            this.setState({
-                isFetching: false,
-                items: response.data
-            });
-            return response;
-        });
-    };
-    render() {
-        return (
-            <Fragment>
-                {this.state.isFetching && <H1>is fetching</H1>}
-                {!this.state.isFetching && <H1>is not fetching</H1>}
-                {this.state.items.length &&
-                    this.state.items.map((user, index) => {
-                        return <div key={user.id}>{user.title}</div>;
-                    })}
-            </Fragment>
-        );
-    }
-}
-
-export default Products;
+                <Route path={`${match.path}/:id`} component={ProductDetail} />
+            </Switch>
+        </Fragment>
+    );
+};
+export default routes;

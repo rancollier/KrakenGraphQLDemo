@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import Api from "../components/api";
 import urls from "../components/api/url";
- 
+ import CircularProgress from "../components/CircularProgress";
 import { H1 } from "../components/syles/typography";
 
 class Users extends React.Component {

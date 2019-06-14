@@ -4,7 +4,7 @@ const express = require("express");
 const router = express.Router();
 
 router.get("/", function(req, res, next) {
-    // redisClient.setTokenToBlacklist(req.cookies["token"], req.user.tokenExp);
+    redisClient.setTokenToBlacklist(req.cookies["token"], req.user.tokenExp);
     res.cookie("token", "", {
         httpOnly: true
         // secure: true

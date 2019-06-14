@@ -13,6 +13,7 @@ services:
         depends_on:
             - node-app
             - sample-app
+            - redis-app
         networks:
             - appnet
     certbot:
@@ -59,6 +60,9 @@ services:
         environment:
             - REDIS_URL=redis-app://cache
             - NODE_ENV=${NODE_ENV}
+        depends_on:
+            - mysql-db
+            - redis-app
         networks:
             - appnet
     sample-app:
