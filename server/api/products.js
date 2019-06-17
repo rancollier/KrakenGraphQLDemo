@@ -1,24 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const queries = require("../db/queries");
-
+const { products } = require("../db/models");
 router.get("/", function(req, res) {
-debugger;
-    queries
-        .getAllProducts()
-        .then(products => {
-            res.cookie('test','tester')
-            res.cookie("cookie1", "This is my first cookie", {
-                
-                httpOnly: true
-            });
-            
-
-            res.json(products);
-        })
-        .catch(err => {
-            res.send(err);
-        });
+    products.findAll().then(products => {
+        console.log("All users:", JSON.stringify(products, null, 4));
+        res.json(products)
+      })
+      .catch(err=>{
+        res.send(err);
+      });
+      
+   
 });
 
 router.get("/:userId", function(req, res) {

@@ -3,10 +3,13 @@ const session = require("cookie-session");
 const helmet = require("helmet");
 const app = express();
 const expressGraphQL = require("express-graphql");
-const schema = require("./graphql/schema");
+// const schema = require("./graphql/schemas/products");
+const schema = require("./graphql/schemas/allSchemas")
+// const schema = require("./graphql/schemas/products");
+
+// const schema = require("./graphql/schemas/users")
 const api = require("./api");
 const cors = require("cors");
-const methodOverride = require("method-override");
 const cookieParser = require("cookie-parser");
 
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
@@ -33,17 +36,6 @@ app.use(helmet());
 app.use(cookieParser());
 const keys = ["keyboard cat"];
 const port = 3030;
-
-// TODO remove?
-app.use(function (req, res, next) {
-    res.cookie('howdy','doody')
-
-     // secure: true,
-//     httpOnly: true,
-
-
-    next()
-  })
 
 
 
