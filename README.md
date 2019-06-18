@@ -69,7 +69,16 @@ $ sequelize model:generate --name User --attributes firstName:string,lastName:st
 custom migrations to make model
 
 ```
-sequelize segenerate --name [your name]
+sequelize generate --name [your name]
+```
+
+To make a new migration to update a scheme
+```
+sequelize migration:create --name add_delete_to_products 
+```
+Update the new migration file then inside docker:
+```
+sequelize db:migrate
 ```
 
 # Notes

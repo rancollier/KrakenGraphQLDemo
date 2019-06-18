@@ -9,7 +9,7 @@ module.exports = (sequelize, DataTypes) => {
             cost: DataTypes.STRING,
             eqpStatus: DataTypes.STRING,
             userId: DataTypes.STRING,
-
+            deleted: DataTypes.STRING,
         },
         {timestamps: false}
     );
