@@ -30,7 +30,7 @@ app.use(session({
   }
 }))
 
-
+app.use(compress());
 app.use(cors());
 app.use(helmet());
 app.use(cookieParser());

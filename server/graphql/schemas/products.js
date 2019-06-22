@@ -13,7 +13,7 @@ const ProductType = new GraphQLObjectType({
     fields: ()=> ({
         id: {type: GraphQLString},
         title: {type: GraphQLString},
-        descriptions: {type: GraphQLString},
+        description: {type: GraphQLString},
         version: {type: GraphQLString},
         cost: {type:GraphQLFloat},
         eqpStatus: {type:GraphQLString},
