@@ -3,9 +3,7 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 const Users = require("./users");
 const Products = require("./products");
-const Login = require("./login");
 const passport = require("passport");
-const Protect = require("./login/findUser");
 const RegisterUser = require("./login/regisgterUser");
 require("./config/passport");
 
