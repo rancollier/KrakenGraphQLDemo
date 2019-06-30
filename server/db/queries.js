@@ -1,5 +1,20 @@
 const db = require("./models");
 const queries = {
+    getUserByUsername: ({ firstName }) => {
+        return db.sequelize
+            .query(
+                `
+            SELECT * 
+            FROM users 
+            WHERE firstName=:firstName
+            limit 1`,
+                {
+                    replacements: { firstName },
+                    type: db.sequelize.QueryTypes.SELECT
+                }
+            )
+            .then(results => results);
+    },
     getAllUsers: () => {
         return db.sequelize
             .query("SELECT * FROM users", {
@@ -14,6 +29,22 @@ const queries = {
                 type: db.sequelize.QueryTypes.SELECT
             })
             .then(results => results);
+    },
+    getUserByLogin: ({ userName, password }) => {
+        return db.sequelize.query(
+            `
+            SELECT firstName, lastName 
+            FROM users 
+            WHERE 
+                firstName=:userName
+            AND
+                password=:password
+        `,
+            {
+                replacements: { userName, password },
+                type: db.sequelize.QueryTypes.SELECT
+            }
+        );
     },
     getAllProducts: () => {
         return db.sequelize

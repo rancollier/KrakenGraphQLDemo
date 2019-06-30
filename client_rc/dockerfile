@@ -1,0 +1,37 @@
+# base image
+FROM node:10.0.0
+
+# set working directory
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+
+# add `/usr/src/app/node_modules/.bin` to $PATH
+ENV PATH /usr/src/app/node_modules/.bin:$PATH
+
+# install and cache app dependencies
+COPY ./app/package.json /usr/src/app/package.json
+RUN npm install
+
+
+
+
+
+
+# start app
+CMD ["npm", "start"]
+
+
+# FROM node:10.0.0
+
+# RUN mkdir /usr/src/client_rc/app
+# WORKDIR /usr/src/client_rc/app
+
+# ENV PATH /usr/src/client_rc/app/node_modules/.bin:$PATH
+
+# # COPY package.json /usr/src/client_rc/package.json
+
+# RUN npm install
+# # COPY node_modules /usr/src/client_rc/node_modules
+# CMD ["npm", "start"]
+
+

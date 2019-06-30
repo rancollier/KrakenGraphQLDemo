@@ -25,4 +25,10 @@ logs:
 logs_watch:
 	docker logs -f app-server
 logs_nginx:
-	docker logs  app-nginx
+	docker logs app-nginx
+logs_nginx_watch:
+	docker logs -f app-nginx
+
+# redis
+redisCli:
+	docker run -it --rm --network krakengraphqldemo_appnet redis:5.0 redis-cli -h redis-app

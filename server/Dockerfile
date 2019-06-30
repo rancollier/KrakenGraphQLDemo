@@ -1,4 +1,4 @@
-FROM node:10.0.0
+FROM node:12.0.0
 
 RUN mkdir /usr/src/server
 WORKDIR /usr/src/server
