@@ -33,41 +33,6 @@ const AppRouter = () => {
             <PrimeDrawer/>
             <PrimaryNav/>
             <div>
-                {/* <Nav>
-                    <NavUl>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/about">About</Link>
-                        </li>
-                        <li>
-                            <Link to="/users">Users</Link>
-                        </li>
-                        <li>
-                            <Link to="/products">Products</Link>
-                        </li>
-                        <li>
-                            <Link to="/protectedProducts">
-                                ProtectedProducts
-                            </Link>
-                        </li>
-                        <li>
-                            <Link to="/account">Account</Link>
-                        </li>
-                        <li>
-                            <Link to="/login">Login</Link>
-                        </li>
-                        <li>
-                            <button type="button" onClick={handleLogOut}>
-                                Log out
-                            </button>
-                        </li>
-                        <li>
-                            <Link to="/login/register">Register</Link>
-                        </li>
-                    </NavUl>
-                </Nav> */}
                 <ScrollToTop>
                     <Switch>
                         <Route path="/" exact component={Index} />
@@ -76,7 +41,7 @@ const AppRouter = () => {
                         <Route path="/products" component={Products} url="xxxx" />
                         <Route
                             path="/protectedProducts"
-                            component={() => <Products url={urls.pretectedProds()} />}
+                            component={(props) => <Products url={urls.pretectedProds()} {...props} />}
                         />
             
                         {/* <Route path="/account" component={Account} /> */}

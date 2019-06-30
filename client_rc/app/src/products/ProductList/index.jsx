@@ -12,7 +12,7 @@ class Products extends React.Component {
             isFetching: false,
             items: []
         };
-        console.log("prods",props)
+        console.log("prods from products",props)
     }
 
     componentDidMount() {
@@ -21,8 +21,8 @@ class Products extends React.Component {
 
     fetchUsers = () => {
        
-        const url =  (this.props.url)?  (this.props.url) : urls.products();
-        console.log("fetching", url);
+        const url =  (this.props.match.path === "/protectedProducts")?  urls.pretectedProds(): urls.products();
+        
         this.setState({ isFetching: true });
         Api.get(url).then(response => {
             console.log(response);

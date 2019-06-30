@@ -1,47 +1,26 @@
 import React, { Fragment } from "react";
-import Api from "../components/api";
-import urls from "../components/api/url";
- import CircularProgress from "../components/CircularProgress";
-import { H1 } from "../components/syles/typography";
+import UserDetail from "./UserDetail";
+import UserList from "./UserList";
+import NewUser from "./UserDetail/newUser";
+import { Link, Switch, Route } from "react-router-dom";
 
-class Users extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            isFetching: false,
-            users: []
-        };
-    }
-
-    componentDidMount() {
-        this.fetchUsers();
-    }
-
-    fetchUsers = () => {
-        const url = urls.users();
-        console.log("fetching",url);
-        this.setState({ isFetching: true });
-        Api.get(url).then(response => {
-            console.log(response);
-            this.setState({
-                isFetching: false,
-                users: response.data
-            });
-            return response;
-        });
-    };
-    render() {
-        return (
-            <Fragment>
-                {this.state.isFetching && <H1>is fetching</H1>}
-                {!this.state.isFetching && <H1>is not fetching</H1>}
-                {this.state.users.length &&
-                    this.state.users.map((user, index) => {
-                        return <div key={user.id}>{user.firstName}</div>;
-                    })}
-            </Fragment>
-        );
-    }
-}
-
-export default Users;
+const routes = props => {
+    const match = props.match;
+    
+    return (
+        <Fragment>
+            <Switch>
+                <Route
+                    exact
+                    path={match.path}
+                    component={UserList}
+                    fetchurl="stuff"
+                    {...props}
+                />
+<Route path={`${match.path}/new`} component={NewUser} />
+                <Route path={`${match.path}/:id`} component={UserDetail} />
+            </Switch>
+        </Fragment>
+    );
+};
+export default routes;

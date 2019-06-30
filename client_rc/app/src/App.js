@@ -5,7 +5,10 @@ import ResizeContext from "./components/DocumentSizeListener";
 import AppStateProvider, {AppStateConsumer} from "./components/AppContext"
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { blue, indigo } from '@material-ui/core/colors';
+import ApolloClient from 'apollo-boost';
+import { ApolloProvider } from "react-apollo";
 import "./App.css";
+
 
 const theme = createMuiTheme({
     palette: {
@@ -25,6 +28,8 @@ const theme = createMuiTheme({
     }
   });
 
+const graphqlClient = new ApolloClient({}); //default configuration where Apollo expects to find the graphql servers in /graphql
+
 function App() {
     try{
         console.log('try')
@@ -41,7 +46,6 @@ function App() {
             <MuiThemeProvider theme={theme}>
                 <AppRouter /> 
             </MuiThemeProvider>
-  
         </div>
         
     );
@@ -50,11 +54,13 @@ function App() {
 
 const CustomProviders = () => {
     return (
+      <ApolloProvider client={graphqlClient}>
         <ResizeContext>
           <AppStateProvider>
             <App/>
           </AppStateProvider>
         </ResizeContext>
+      </ApolloProvider>
     )
             
 }

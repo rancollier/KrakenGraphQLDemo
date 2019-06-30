@@ -1,5 +1,6 @@
 const graphql = require("graphql");
 const { products, users } = require("../../db/models");
+const {UserType, ProductType} = require("./types");
 
 const {
     GraphQLObjectType ,
@@ -9,58 +10,6 @@ const {
     GraphQLSchema,
     GraphQLNonNull,
 } = graphql;
-
-const ProductType = new GraphQLObjectType({
-    name: 'Product',
-    fields: ()=> ({
-        id: {type: GraphQLString},
-        title: {type: GraphQLString},
-        description: {type: GraphQLString},
-        version: {type: GraphQLString},
-        cost: {type:GraphQLFloat},
-        eqpStatus: {type:GraphQLString},
-        userId:{type:GraphQLString},
-        deleted: {type:GraphQLString},
-        user: {
-            type: UserType,
-            resolve(parentValue, args){
-                const userId = parentValue.userId
-                return users.findOne({
-                    here: {
-                        id: userId,
-                    }
-                })
-            }
-        }
-    })
-})
-
-
-
-
-
-
-const UserType = new GraphQLObjectType({
-    name: "User",
-    fields: () => ({
-        id: { type: GraphQLString },
-        firstName: { type: GraphQLString },
-        lastName: { type: GraphQLString },
-        email: { type: GraphQLString },
-        deleted: {type:GraphQLString},
-        products: {
-            type: new GraphQLList(ProductType),
-            resolve(parentValue, args) {
-                
-                return products.findAll({ where: { id:  parentValue.id} }).then(users=>{
-                    console.log("users")
-                    console.log(users)
-                    return users
-                })
-            }
-        }
-    })
-});
 
 
 
@@ -84,6 +33,18 @@ const UserType = new GraphQLObjectType({
                 })
             }
         },
+        users: {
+            type: new GraphQLList(UserType),
+            // TODO: figure out how to filter by arguments
+            resolve() {
+                return users.findAll()
+                .then(users=>{
+                    return users;
+                }).catch(err=>{
+                    res.send(err)
+                })
+            }
+        },
         product: {
             type:ProductType,
             args: {id: { type: GraphQLString} },
@@ -99,8 +60,20 @@ const UserType = new GraphQLObjectType({
                     res.send(err);
                 })
             }
-        }
+        },
+        products: {
+            type: new GraphQLList(ProductType),
+            resolve() {
+                return products.findAll()
+                .then(products=>{
+                    return products;
+                }).catch(err=>{
+                    res.send(err)
+                })
+            }
+        },
      }
+    
  })
 
 const mutation = new GraphQLObjectType({
@@ -144,9 +117,9 @@ const mutation = new GraphQLObjectType({
         //         eqpStatus: {type:GraphQLString},
         //         userId:{type: new GraphQLNonNull(GraphQLString)},
         //     },
-        //     resolve(parentValue, args) {
+        //     resolve(parentValue, args, request) {
+        //         console.log(request)
         //         const {title, descriptions, version, cost, eqpStatus, userId}
-
         //     }
         // }
     }

@@ -5,13 +5,16 @@ import { Link, Switch, Route } from "react-router-dom";
 
 const routes = props => {
     const match = props.match;
+    console.log(props.url)
     return (
         <Fragment>
             <Switch>
                 <Route
                     exact
-                    path={match.path}
+                    
+                    // render={props=><ProductList {...props}/>}
                     component={ProductList}
+                    
                     {...props}
                 />
 
