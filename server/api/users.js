@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const queries = require("../db/queries");
-const sequelize = require("../db/models/user");
 const { users } = require("../db/models");
 
 router.get("/", function(req, res) {
@@ -19,14 +17,17 @@ router.get("/", function(req, res) {
 });
 
 router.get("/:userId", (req, res) => {
-    return queries
-        .getUserById(req.params)
-        .then(response => {
-            res.json(response);
-        })
-        .catch(err => {
-            res.send(err);
-        });
+    return users.findOne({
+        where: {
+            id: req.params.userId
+        }
+    })
+    .then(user => {
+        res.json(user);
+    })
+    .catch(err => {
+        res.send(err);
+    });
 });
 
 module.exports = router;

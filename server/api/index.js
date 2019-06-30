@@ -7,7 +7,7 @@ const passport = require("passport");
 const RegisterUser = require("./login/regisgterUser");
 require("./config/passport");
 
-const FindUser = require("./login/findUser");
+// const FindUser = require("./login/findUser");
 const LoginUser = require("./login/loginUser");
 const LogOutUser = require("./login/logOutUser");
 
@@ -23,7 +23,7 @@ router.get("/", function(req, res) {
     res.send("my fancy api");
 });
 
-router.use("/findUser", FindUser);
+// router.use("/findUser", FindUser);
 router.use("/loginUser", LoginUser);
 router.use("/registerUser", RegisterUser);
 router.use("/users", Users);

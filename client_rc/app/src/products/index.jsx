@@ -5,7 +5,6 @@ import { Link, Switch, Route } from "react-router-dom";
 
 const routes = props => {
     const match = props.match;
-    console.log(props.url)
     return (
         <Fragment>
             <Switch>

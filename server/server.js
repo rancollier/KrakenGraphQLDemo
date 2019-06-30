@@ -3,11 +3,8 @@ const session = require("cookie-session");
 const helmet = require("helmet");
 const app = express();
 const expressGraphQL = require("express-graphql");
-// const schema = require("./graphql/schemas/products");
-const schema = require("./graphql/schemas/allSchemas")
-// const schema = require("./graphql/schemas/products");
+const schema = require("./graphql/schemas/allSchemas");
 
-// const schema = require("./graphql/schemas/users")
 const api = require("./api");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
