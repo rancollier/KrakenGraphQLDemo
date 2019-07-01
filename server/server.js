@@ -4,12 +4,23 @@ const helmet = require("helmet");
 const app = express();
 const expressGraphQL = require("express-graphql");
 const schema = require("./graphql/schemas/allSchemas");
-
 const api = require("./api");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 
+
+
+
+
+
+
+const passport = require("passport");
+require("./api/config/passport");
+app.use(passport.initialize());
+
 const expiryDate = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
+
+
 // TODO remove?
 app.set('trust proxy', 1) // trust first proxy
 
@@ -35,9 +46,18 @@ const keys = ["keyboard cat"];
 const port = 3030;
 
 
-
-
 app.get("/", (req, res) => res.send("Hello World!"));
+
+app.use('/graphql', (req, res, next) => {
+    passport.authenticate('jwt', { session: false }, (err, user, info) => {
+      if (user) {
+        req.user = user
+      }
+      console.log('what???')
+      next()
+    })(req, res, next)
+  })
+
 
 app.use(
     "/graphql",

@@ -22,6 +22,7 @@ const {
             type: UserType,
             args: { id: { type: GraphQLString } },
             resolve(parentValue, args) {
+               console.log("stuff")
                 return users.findOne({
                     where: {
                         id: args.id
@@ -36,7 +37,8 @@ const {
         users: {
             type: new GraphQLList(UserType),
             // TODO: figure out how to filter by arguments
-            resolve() {
+            resolve(parentValue, args, request) {
+                console.log('test gql get users')
                 return users.findAll()
                 .then(users=>{
                     return users;

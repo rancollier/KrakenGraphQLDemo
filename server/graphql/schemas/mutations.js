@@ -43,21 +43,33 @@ const Mutations = new GraphQLObjectType({
             }
         },
         // TODO: Need to pass down the userId
-        // addProduct: {
-        //     type: ProductType, // we may not alwasy return the same type 
-        //     args: { // What is expected for the mutation
-        //         title:{type: new GraphQLNonNull(GraphQLString)},
-        //         descriptions: {type: GraphQLString},
-        //         version: {type: GraphQLString},
-        //         cost: {type:GraphQLFloat},
-        //         eqpStatus: {type:GraphQLString},
-        //         userId:{type: new GraphQLNonNull(GraphQLString)},
-        //     },
-        //     resolve(parentValue, args) {
-        //         const {title, descriptions, version, cost, eqpStatus, userId}
-
-        //     }
-        // }
+        addProduct: {
+            type: ProductType, // we may not alwasy return the same type 
+            args: { // What is expected for the mutation
+                title:{type: new GraphQLNonNull(GraphQLString)},
+                descriptions: {type: GraphQLString},
+                version: {type: GraphQLString},
+                cost: {type:GraphQLFloat},
+                eqpStatus: {type:GraphQLString},
+                userId:{type: new GraphQLNonNull(GraphQLString)},
+            },
+            resolve(parentValue, args, request) {
+                const userId = request.user.dataValues.id
+                console.log(args)
+                products.create({
+                    title: 'janedoe',
+                    version: "1",
+                    cost: "111.11",
+                    eqpStatus:"green",
+                    userId
+                  })
+                  .then(results=>{
+                    
+                    return results;
+                }).catch(err=>{return err;})
+                const {title, descriptions, version, cost, eqpStatus, userId}
+            }
+        }
     }
 })
 
