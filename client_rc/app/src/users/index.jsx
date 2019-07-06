@@ -17,7 +17,7 @@ const routes = props => {
                     fetchurl="stuff"
                     {...props}
                 />
-<Route path={`${match.path}/new`} component={NewUser} />
+                <Route path={`${match.path}/new`} component={NewUser} />
                 <Route path={`${match.path}/:id`} component={UserDetail} />
             </Switch>
         </Fragment>

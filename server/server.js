@@ -11,9 +11,6 @@ const cookieParser = require("cookie-parser");
 
 
 
-
-
-
 const passport = require("passport");
 require("./api/config/passport");
 app.use(passport.initialize());
@@ -53,17 +50,16 @@ app.use('/graphql', (req, res, next) => {
       if (user) {
         req.user = user
       }
-      console.log('what???')
       next()
     })(req, res, next)
   })
-
 
 app.use(
     "/graphql",
     expressGraphQL({
         schema,
-        graphiql: true
+        graphiql: true,
+        
     })
 );
 app.use("/api", api);

@@ -43,7 +43,7 @@ class LoginContainer extends React.Component {
         this.setState({ isSubmitting: true });
         Api.put(url, { firstName: userName, password })
             .then(response => {
-                debugger;
+               
                 console.log(response.token);
             })
             .catch(error => {

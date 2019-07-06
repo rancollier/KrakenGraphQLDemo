@@ -1,7 +1,7 @@
 const graphql = require("graphql");
 const { products, users } = require("../../db/models");
 const {UserType, ProductType} = require("./types");
-
+const graphqlFields = require('graphql-fields');
 const {
     GraphQLObjectType ,
     GraphQLFloat,
@@ -21,12 +21,14 @@ const {
         user: {
             type: UserType,
             args: { id: { type: GraphQLString } },
-            resolve(parentValue, args) {
-               console.log("stuff")
+            resolve(parentValue, args, request, info) {
+                const fieldsWithoutTypeName = graphqlFields(info, {}, { excludedFields: ['__typename'] });
+                const selectFields = Object.keys(fieldsWithoutTypeName);
                 return users.findOne({
                     where: {
                         id: args.id
-                    }
+                    },
+                    attributes: selectFields,
                 }).then(product=>{
                     return product
                 }).catch(err=>{
@@ -37,9 +39,13 @@ const {
         users: {
             type: new GraphQLList(UserType),
             // TODO: figure out how to filter by arguments
-            resolve(parentValue, args, request) {
+            resolve(parentValue, args, request, info) {
+                const fieldsWithoutTypeName = graphqlFields(info, {}, { excludedFields: ['__typename'] });
+                const selectFields = Object.keys(fieldsWithoutTypeName);
                 console.log('test gql get users')
-                return users.findAll()
+                return users.findAll({
+                    attributes: selectFields
+                })
                 .then(users=>{
                     return users;
                 }).catch(err=>{
@@ -50,11 +56,14 @@ const {
         product: {
             type:ProductType,
             args: {id: { type: GraphQLString} },
-            resolve(parentValue, args) {
+            resolve(parentValue, args, request, info) {
+                const fieldsWithoutTypeName = graphqlFields(info, {}, { excludedFields: ['__typename'] });
+                const selectFields = Object.keys(fieldsWithoutTypeName);
                 return products.findOne({
                     where: {
                         id: args.id
-                    }
+                    },
+                    attributes: selectFields
                 }).then(product=>{
                
                     return product
@@ -65,8 +74,12 @@ const {
         },
         products: {
             type: new GraphQLList(ProductType),
-            resolve() {
-                return products.findAll()
+            resolve(parentValue, args, request, info) {
+                const fieldsWithoutTypeName = graphqlFields(info, {}, { excludedFields: ['__typename'] });
+                const selectFields = Object.keys(fieldsWithoutTypeName);
+                return products.findAll({
+                    attributes: selectFields
+                })
                 .then(products=>{
                     return products;
                 }).catch(err=>{
@@ -109,21 +122,92 @@ const mutation = new GraphQLObjectType({
                 }).catch(err=>{return err;})
             }
         },
-        // addProduct: {
-        //     type: ProductType, // we may not alwasy return the same type 
-        //     args: { // What is expected for the mutation
-        //         title:{type: new GraphQLNonNull(GraphQLString)},
-        //         descriptions: {type: GraphQLString},
-        //         version: {type: GraphQLString},
-        //         cost: {type:GraphQLFloat},
-        //         eqpStatus: {type:GraphQLString},
-        //         userId:{type: new GraphQLNonNull(GraphQLString)},
-        //     },
-        //     resolve(parentValue, args, request) {
-        //         console.log(request)
-        //         const {title, descriptions, version, cost, eqpStatus, userId}
-        //     }
-        // }
+        addProduct: {
+            type: ProductType, // we may not alwasy return the same type 
+            args: { // What is expected for the mutation
+                title:{type: new GraphQLNonNull(GraphQLString)},
+                description: {type: GraphQLString},
+                version: {type: GraphQLString},
+                cost: {type:GraphQLFloat},
+                eqpStatus: {type:GraphQLString},
+                // userId:{type: new GraphQLNonNull(GraphQLString)},
+                userId: {type:GraphQLString},
+            },
+            resolve(parentValue, args, request) {
+                const userId = request.user.dataValues.id;
+                try {
+                    const userId = request.user.dataValues.id;
+                }
+                catch(error) {
+
+                    throw new Error('Not logged in')
+                }
+               
+               
+                console.log(args)
+                return products.create({
+                    ...args,
+                    userId
+                  })
+                  .then(results=>{
+                    
+                    return results;
+                }).catch(err=>{return err;})         
+            }
+        },
+        updateProduct: {
+            type: ProductType, // we may not alwasy return the same type 
+            args: { // What is expected for the mutation
+                id: {type: new GraphQLNonNull(GraphQLString)},
+                title:{type: GraphQLString},
+                description: {type: GraphQLString},
+                version: {type: GraphQLString},
+                cost: {type:GraphQLFloat},
+                eqpStatus: {type:GraphQLString},
+            },
+           
+               
+
+            resolve(parentValue, args, request, info) {
+                
+                try {
+                    const userId = request.user.dataValues.id;
+                }
+                catch(error) {
+                    throw new Error('Not logged in')
+                }
+                const fieldsWithoutTypeName = graphqlFields(info, {}, { excludedFields: ['__typename'] });
+                const selectFields = Object.keys(fieldsWithoutTypeName);
+                const prodId = args.id;
+                // const updatedArgs = (args.id) ? delete(args.id) : args;
+                return products.update(
+                    {...args},
+                    {
+                       
+                        where: {id: prodId},
+                        returning: true,
+                        // plain: true
+                    }
+                  )
+                  
+                  .then(results=>{
+                    debugger;
+                    console.log("prodId", prodId)
+                    // return results;
+                    return products.findOne({
+                        where: {
+                            id: args.id
+                        },
+                        attributes: selectFields
+                    }).then(product=>{
+                   
+                        return product
+                    }).catch(err=>{
+                        res.send(err);
+                    })
+                }).catch(err=>{return err;})         
+            }
+        }
     }
 })
 
