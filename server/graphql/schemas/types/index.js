@@ -38,7 +38,18 @@ const UserType = new GraphQLObjectType({
 
 module.exports.UserType = UserType; 
 
+const UserLoggedINType = new GraphQLObjectType({
+    name: "UserLoggedIn",
+    fields: () => ({
+        id: { type: GraphQLString },
+        firstName: { type: GraphQLString },
+        lastName: { type: GraphQLString },
+        role: {type: GraphQLString},
+        // roles will need to be added.
+    })
+});
 
+module.exports.UserLoggedINType = UserLoggedINType;
 
 const ProductType = new GraphQLObjectType({
     name: 'Product',

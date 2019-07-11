@@ -122,7 +122,7 @@ passport.use(
     
     new JWTstrategy(opts, (jwt_payload, done) => {
         try {
-            console.log( "try jwt")
+            console.log( "try jwt", jwt_payload)
        
             // if(async()=> await !redisClient('xyz')) {
             //     done(null, false);

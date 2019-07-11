@@ -1,4 +1,6 @@
 import React from "react";
+import {LoggedInConsumer} from "../components/UserLoginContext";
+// import { LoggedInContext } from "../components/UserLoginContext"
 
 const LoginComponent = props => {
     const {
@@ -6,10 +8,14 @@ const LoginComponent = props => {
         passwordOnChange,
         handleSubmit,
         isSubmitDisabled,
-        showPassword
+        showPassword,
+        logginError,
     } = props;
+    const{ isLoggedIn }=LoggedInConsumer()
+    
     return (
         <div>
+            <div>Is logged In: {isLoggedIn}</div>
             <form onSubmit={handleSubmit}>
                 <label>
                     User name
@@ -25,6 +31,7 @@ const LoginComponent = props => {
                 <button type="submit" disabled={isSubmitDisabled}>
                     Login
                 </button>
+                {logginError && <div>Error logging in.</div>}
             </form>
         </div>
     );

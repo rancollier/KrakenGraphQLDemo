@@ -25,7 +25,8 @@ router.put("/", function(req, res, next) {
                     .findOne({
                         where: {
                             firstName: user.firstName
-                        }
+                        },
+                        // attributes:["firstName", "lastName", "email"]
                     })
                     .then(user => {
                         console.log(
@@ -49,7 +50,7 @@ router.put("/", function(req, res, next) {
                   
                         res.status(200).send({
                             auth: true,
-                            message: "user found & logged in"
+                            user
                         });
                     });
             });

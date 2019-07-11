@@ -4,6 +4,7 @@ const api = {
     loginUser: () => "/loginUser",
     registerUser: () => "/registerUser",
     pretectedProds: () => "/pretectedProds",
+    isLoggedIn: () => "/isLoggedIn",
     logOut: () => "/logOut",
 }
 

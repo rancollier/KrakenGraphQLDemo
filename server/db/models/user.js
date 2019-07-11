@@ -15,7 +15,13 @@ module.exports = (sequelize, DataTypes) => {
             password: DataTypes.STRING,
             deleted: DataTypes.STRING,
         },
-        {}
+        {
+            hooks: {
+                beforeValidate:  (product, options) => {
+                    console.log("beforeValidate")
+                  }
+            }
+        }
     );
     User.associate = function(models) {
         // associations can be defined here

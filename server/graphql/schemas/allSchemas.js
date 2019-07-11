@@ -1,6 +1,6 @@
 const graphql = require("graphql");
 const { products, users } = require("../../db/models");
-const {UserType, ProductType} = require("./types");
+const {UserType, UserLoggedINType, ProductType} = require("./types");
 const graphqlFields = require('graphql-fields');
 const {
     GraphQLObjectType ,
@@ -34,6 +34,21 @@ const {
                 }).catch(err=>{
                     res.send(err);
                 })
+            }
+        },
+        userLoggedIn: {
+            type: UserLoggedINType,
+            resolve(parentValue, args, request, info) {
+                const fieldsWithoutTypeName = graphqlFields(info, {}, { excludedFields: ['__typename'] });
+                const selectFields = Object.keys(fieldsWithoutTypeName);
+                try {
+                    const userId = request.user.dataValues.id;
+                    const role = ([1,2,109].includes(userId)) ? "admin" : "user";
+                    return {...request.user.dataValues, role}
+                }
+                catch(error) {
+                    throw new Error('Not logged in')
+                }
             }
         },
         users: {
@@ -139,18 +154,14 @@ const mutation = new GraphQLObjectType({
                     const userId = request.user.dataValues.id;
                 }
                 catch(error) {
-
                     throw new Error('Not logged in')
                 }
-               
-               
-                console.log(args)
+
                 return products.create({
                     ...args,
                     userId
                   })
-                  .then(results=>{
-                    
+                  .then(results=>{ 
                     return results;
                 }).catch(err=>{return err;})         
             }
@@ -191,8 +202,8 @@ const mutation = new GraphQLObjectType({
                   )
                   
                   .then(results=>{
-                    debugger;
-                    console.log("prodId", prodId)
+                 
+                    console.log("prodId")
                     // return results;
                     return products.findOne({
                         where: {

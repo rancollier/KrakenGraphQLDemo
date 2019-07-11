@@ -9,6 +9,7 @@ const RegisterUser = require("./login/regisgterUser");
 
 
 // const FindUser = require("./login/findUser");
+const UserLoggedIn = require("./login/userLoggedIn");
 const LoginUser = require("./login/loginUser");
 const LogOutUser = require("./login/logOutUser");
 
@@ -24,7 +25,7 @@ router.get("/", function(req, res) {
     res.send("my fancy api");
 });
 
-
+router.use("/isLoggedIn", UserLoggedIn)
 router.use("/loginUser", LoginUser);
 router.use("/registerUser", RegisterUser);
 router.use("/users", Users);

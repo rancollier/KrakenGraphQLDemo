@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import AppRouter from "./routes";
 import ResizeContext from "./components/DocumentSizeListener";
 import AppStateProvider, {AppStateConsumer} from "./components/AppContext"
+import LoggedInProvider, {LoggedInConsumer} from "./components/UserLoginContext";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { blue, indigo } from '@material-ui/core/colors';
 import ApolloClient from 'apollo-boost';
@@ -28,7 +29,9 @@ const theme = createMuiTheme({
     }
   });
 
-const graphqlClient = new ApolloClient({}); //default configuration where Apollo expects to find the graphql servers in /graphql
+const graphqlClient = new ApolloClient({
+
+}); //default configuration where Apollo expects to find the graphql servers in /graphql
 
 function App() {
     try{
@@ -56,9 +59,11 @@ const CustomProviders = () => {
     return (
       <ApolloProvider client={graphqlClient}>
         <ResizeContext>
+          <LoggedInProvider>
           <AppStateProvider>
             <App/>
           </AppStateProvider>
+          </LoggedInProvider>
         </ResizeContext>
       </ApolloProvider>
     )
