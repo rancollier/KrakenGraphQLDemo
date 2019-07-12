@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import UserDetail from "./UserDetail";
 import UserList from "./UserList";
 import NewUser from "./UserDetail/newUser";
-import { Link, Switch, Route } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 
 const routes = props => {
     const match = props.match;

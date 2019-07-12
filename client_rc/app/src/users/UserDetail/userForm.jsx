@@ -37,6 +37,17 @@ export default function AddressForm(props) {
             value={lastName}
           />
         </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="email"
+            name="email"
+            label="Email"
+            fullWidth
+            defaultValue="Email Address"
+            value={email}
+          />
+        </Grid>
         <Grid item xs={12}>
           <TextField
             required

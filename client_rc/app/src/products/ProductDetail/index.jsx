@@ -3,7 +3,7 @@ import Form from "./form";
 import Paper from "../../components/layout/paper";
 
 import gql from "graphql-tag";
-import { Mutation, Compose, Query } from "react-apollo";
+import { Mutation, Query } from "react-apollo";
 
 class ProductDetail extends React.Component {
     constructor(props) {

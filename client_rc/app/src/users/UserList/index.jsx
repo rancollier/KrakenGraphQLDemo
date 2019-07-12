@@ -1,9 +1,9 @@
 import React, { Fragment } from "react";
-import Api from "../../components/api";
-import urls from "../../components/api/url";
-import CircularProgress from "../../components/CircularProgress";
+// import Api from "../../components/api";
+// import urls from "../../components/api/url";
+// import CircularProgress from "../../components/CircularProgress";
 import { H1 } from "../../components/syles/typography";
-import {AddUserComponent, UserList, UserListLayout} from "./components";
+import {UserListLayout} from "./components";
 import gql from "graphql-tag";
 import { graphql } from "react-apollo";
 

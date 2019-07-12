@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
-import logo from "./logo.svg";
+import React from "react";
 import AppRouter from "./routes";
 import ResizeContext from "./components/DocumentSizeListener";
-import AppStateProvider, {AppStateConsumer} from "./components/AppContext"
-import LoggedInProvider, {LoggedInConsumer} from "./components/UserLoginContext";
+import AppStateProvider from "./components/AppContext"
+import LoggedInProvider from "./components/UserLoginContext";
+import WebSocketsProvider from "./components/WebSocketsContext";
 import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { blue, indigo } from '@material-ui/core/colors';
 import ApolloClient from 'apollo-boost';
@@ -42,7 +42,7 @@ function App() {
         console.log(err)
     }
 
-    const { primaryNavDrawerShow, setPrimaryNavDrawerShow } = AppStateConsumer();
+    // const { primaryNavDrawerShow, setPrimaryNavDrawerShow } = AppStateConsumer();
  
     return (
         <div className="App">
@@ -57,15 +57,17 @@ function App() {
 
 const CustomProviders = () => {
     return (
-      <ApolloProvider client={graphqlClient}>
-        <ResizeContext>
-          <LoggedInProvider>
-          <AppStateProvider>
-            <App/>
-          </AppStateProvider>
-          </LoggedInProvider>
-        </ResizeContext>
-      </ApolloProvider>
+      <WebSocketsProvider>
+        <ApolloProvider client={graphqlClient}>
+          <ResizeContext>
+            <LoggedInProvider>
+            <AppStateProvider>
+              <App/>
+            </AppStateProvider>
+            </LoggedInProvider>
+          </ResizeContext>
+        </ApolloProvider>
+      </WebSocketsProvider>
     )
             
 }

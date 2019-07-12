@@ -1,10 +1,6 @@
 import React, {Fragment} from "react";
-
-import CircularProgress from "../../components/CircularProgress";
-import { H1 } from "../../components/syles/typography";
-import { Link } from "react-router-dom";
 import gql from "graphql-tag";
-import { graphql, Query } from "react-apollo";
+import { Query } from "react-apollo";
 import UserForm from "./userForm";
 
 class UserDetail extends React.Component {

@@ -1,13 +1,8 @@
 import React, { Fragment } from "react";
 import ProductDetail from "./ProductDetail";
 import ProductList from "./ProductList";
-import { Link, Switch, Route } from "react-router-dom";
-
-const Test = () => {
-    return (
-        <div>hello</div>
-    )
-}
+import { Switch, Route } from "react-router-dom";
+ 
 const routes = props => {
     const match = props.match;
     return (

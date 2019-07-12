@@ -4,8 +4,7 @@ const RegisterComponent = props => {
     const {
         onInputOnChange,
         handleSubmit,
-        isSubmitDisabled,
-        showPassword
+        isSubmitDisabled
     } = props;
 
     return (
