@@ -3,11 +3,14 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
 
 export default function AddressForm(props) {
-  const {product, handleChange, handleSave, handleCreate, isNew} = props;
+  const {product, handleChange, handleSave, handleCreate, isNew, eqpStatusSelect} = props;
   return (
-    <React.Fragment>
+    <FormControl>
       <Typography variant="h6" gutterBottom>
         Shipping address
       </Typography>
@@ -36,7 +39,7 @@ export default function AddressForm(props) {
            
           />
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={3}>
           <TextField
             required
             id="cost"
@@ -47,35 +50,37 @@ export default function AddressForm(props) {
             onChange={handleChange}
           />
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="eqpStatus"
+        <Grid item xs={12} sm={3}>
+          <Select
             name="eqpStatus"
-            label="EQP Status"
-            fullWidth
-            autoComplete="eqpStatus"
-            value = {product.eqpStatus}
+            value={product.eqpStatus}
             onChange={handleChange}
-          />
+          >
+            
+            {eqpStatusSelect.map((eqpStatusItem)=> {
+             const {displayName, eqpStatus} = eqpStatusItem;
+              return (<MenuItem value={displayName}>{displayName}</MenuItem>)
+            })} 
+          </Select>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={12} sm={3}>
           <TextField
             id="version"
             name="version"
             label="Version"
-          
-            
             value = {product.version}
             onChange={handleChange}
           />
         </Grid>
       </Grid>
-      { isNew ?
-        <Button variant="contained" color="primary"  onClick={handleCreate}  >Create</Button> :
-        <Button variant="contained" color="primary"  onClick={handleSave} >Save</Button>
-      }
+      <div style={{margin:"1rem"}}>
+        { isNew ?
+          <Button variant="contained" color="primary"  onClick={handleCreate}  >Create</Button> :
+          <Button variant="contained" color="primary"  onClick={handleSave} >Save</Button>
+        }
+      </div>
       
       
-    </React.Fragment>
+    </FormControl>
   );
 }

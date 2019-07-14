@@ -36,7 +36,17 @@ const UserType = new GraphQLObjectType({
     })
 });
 
-module.exports.UserType = UserType; 
+module.exports.UserType = UserType;
+
+const EQPStatusType = new GraphQLObjectType({
+    name: "EQPStatus",
+    fields: () => ({
+        displayName: { type: GraphQLString },
+        EQPStatus: { type: GraphQLString }
+    })
+})
+
+module.exports.EQPStatusType = EQPStatusType;
 
 const UserLoggedINType = new GraphQLObjectType({
     name: "UserLoggedIn",

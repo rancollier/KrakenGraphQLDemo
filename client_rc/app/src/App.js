@@ -8,9 +8,15 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import { blue, indigo } from '@material-ui/core/colors';
 import ApolloClient from 'apollo-boost';
 import { ApolloProvider } from "react-apollo";
+import LoginStatus from "./components/UserLoginContext/LoginStatus";
+
+import {
+  BrowserRouter as Router,
+} from "react-router-dom";
+import { createBrowserHistory } from "history"
 import "./App.css";
 
-
+const history = createBrowserHistory();
 const theme = createMuiTheme({
     palette: {
       secondary: {
@@ -47,28 +53,30 @@ function App() {
     return (
         <div className="App">
             <MuiThemeProvider theme={theme}>
+                <LoginStatus/>
                 <AppRouter /> 
             </MuiThemeProvider>
         </div>
-        
     );
 }
 
 
 const CustomProviders = () => {
     return (
-      <WebSocketsProvider>
+      <Router history={history}>
         <ApolloProvider client={graphqlClient}>
           <ResizeContext>
-            <LoggedInProvider>
-            <AppStateProvider>
-              <App/>
-            </AppStateProvider>
-            </LoggedInProvider>
+            {/* <LoggedInProvider> */}
+              <AppStateProvider>
+                <WebSocketsProvider>
+            
+                  <App/>
+                </WebSocketsProvider>
+              </AppStateProvider>
+            {/* </LoggedInProvider> */}
           </ResizeContext>
         </ApolloProvider>
-      </WebSocketsProvider>
-    )
-            
+      </Router>
+    )   
 }
 export default CustomProviders;

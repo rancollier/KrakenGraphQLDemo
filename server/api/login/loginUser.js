@@ -7,8 +7,8 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 // const OneHour = Math.floor(Date.now() / 1000) + 60 * 60;
 // const ThiryMin = Math.floor(Date.now() / 1000) + 60 * 30;
-const TenMin = () => Math.floor(Date.now() / 1000) + 60 * 10;
-
+// const TenMin = () => Math.floor(Date.now() / 1000) + 60 * 10;
+const expiration = () => Math.floor(Date.now() / 1000) + 60 * 30;
 router.put("/", function(req, res, next) {
     console.log(req.body);
     passport.authenticate("login", (err, user, info) => {
@@ -32,7 +32,7 @@ router.put("/", function(req, res, next) {
                         console.log(
                             "findUser and set create cookie and apply token"
                         );
-                        const exp = TenMin();
+                        const exp = expiration();
                         const token = jwt.sign(
                             {
                                 exp,

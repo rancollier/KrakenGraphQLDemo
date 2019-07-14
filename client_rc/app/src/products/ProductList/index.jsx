@@ -4,7 +4,9 @@ import urls from "../../components/api/url";
 import { Link } from "react-router-dom";
 import { H1 } from "../../components/syles/typography";
 import Paper from "../../components/layout/paper";
-import Loader from "./loader"
+import Loader from "./loader";
+import {AppStateConsumer} from "../../components/AppContext";
+
 class Products extends React.Component {
     constructor(props) {
         super(props);
@@ -19,17 +21,15 @@ class Products extends React.Component {
      
     }
 
-    // componentDidMount() {
-    //     this.fetchUsers();
-    // }
+    componentDidMount() {
+        this.fetchUsers();
+    }
 
     fetchUsers = () => {
-       
         const url =  (this.props.match.path === "/protectedProducts")?  urls.pretectedProds(): urls.products();
-        
         this.setState({ isFetching: true });
         Api.get(url).then(response => {
-
+            this.props.context.updateAllProducts(response.data);
             console.log("look",response);
             this.setState({
                 isFetching: false,
@@ -42,23 +42,42 @@ class Products extends React.Component {
     render() {
         const path = this.props.match.path;
         console.log("no GRAPHQL")
+        const products = Object.values(this.props.context.allProducts);
+    
         return (
-            <Loader  options={{fetchList:["fetchUsers"]}} isFetching={this.state.isFetching} isFetched={this.state.isFetched} fetchMethods={this.state.fetchMethods}>
+            // <Loader  options={{fetchList:["fetchUsers"]}} isFetching={this.state.isFetching} isFetched={this.state.isFetched} fetchMethods={this.state.fetchMethods}>
                 <Fragment>
                     <Paper>
                         {this.state.isFetching && <H1>is fetching</H1>}
                         {!this.state.isFetching && <H1>is not fetching</H1>}
-                        {this.state.items.length &&
+                        { products.length &&
+                            products.map((product, index) => {
+                                return (<div key={product.id}>
+                                    <Link to={`${path}/${product.id}`} >{product.title} </Link>
+                                </div>);
+                            })
+                        }
+
+                        {/* {this.state.items.length &&
                             this.state.items.map((product, index) => {
                                 return (<div key={product.id}>
                                 <Link to={`${path}/${product.id}`} >{product.title} </Link>
                                 </div>);
-                            })}
+                            })
+                        } */}
                     </Paper>
                 </Fragment>
-            </Loader>
+            // </Loader>
         );
     }
 }
-
-export default Products;
+const CustomProvider = (props) => {
+    const context = AppStateConsumer();
+    return(
+        <Fragment>
+            <Products context={context} {...props} />
+        </Fragment>
+    )
+    
+}
+export default CustomProvider;

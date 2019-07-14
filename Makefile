@@ -31,4 +31,4 @@ logs_nginx_watch:
 
 # redis
 redisCli:
-	docker run -it --rm --network krakengraphqldemo_appnet redis:5.0 redis-cli -h redis-app
+	docker run -it --rm --network krakengraphqldemo_appnet redis:5.0 redis-cli -h redis

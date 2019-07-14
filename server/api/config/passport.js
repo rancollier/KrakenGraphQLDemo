@@ -141,7 +141,7 @@ passport.use(
                             : new Date() / 1000;
                         console.log(exp);
                         // note the return removed with passport JWT - add this return for passport local
-                        console.log("user",user)
+                        console.log("found user")
                         done(null, {...user, tokenExp:exp});
                     } else {
                         console.log("user not found in db");

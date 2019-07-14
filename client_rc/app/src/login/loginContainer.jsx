@@ -3,7 +3,7 @@ import LoginComponent from "./loginComponent";
 import Api from "../components/api";
 import urls from "../components/api/url";
 import { LoggedInContext } from "../components/UserLoginContext"
-
+import { WebSocketsContext } from "../components/WebSocketsContext"
 // setup proptypes for context
 // isLoggedIn: false,
 // setUserInfo: this.setUserInfo
@@ -18,7 +18,7 @@ class LoginContainer extends React.Component {
             userData: null,
             isSubmitting: false,
             isSubmitDisabled: true,
-            isLoggedIn: props.context.isLoggedIn,
+            // isLoggedIn: props.context.isLoggedIn,
             loginError: false,
             showPassword: false,
         };
@@ -40,8 +40,9 @@ class LoginContainer extends React.Component {
             console.log('setting state to true')
             // updateState["isLoggedIn"] = true;
             debugger;
-            this.props.context.setUserInfo = this.state.userData;
-            this.props.context.setIsLoggedIn = this.state.isLoggedIn
+            this.props.ws.emitILoggedIn('tom')
+            // this.props.context.setUserInfo = this.state.userData;
+            // this.props.context.setIsLoggedIn = this.state.isLoggedIn
         }
 
         if (Object.keys(updateState).length) {
@@ -62,19 +63,15 @@ class LoginContainer extends React.Component {
         Api.put(url, { firstName: userName, password })
             .then(response => {
                 if(response.data.user) {
-
                     this.setState({'userData': response.data.user, "isLoggedIn": true})
                 }
-
-                
-                console.log(response.token);
             })
             .catch(error => {
                 debugger;
                 console.log(error);
             })
             .then((response) => {
-                debugger
+          
                 this.setState({ isSubmitting: false });
             });
     };
@@ -107,13 +104,22 @@ class LoginContainer extends React.Component {
 
 const Test = (props) => {
     return (
-        // const{isLoggedIn,setUserInfo }=LoggedInConsumer()
-        <LoggedInContext.Consumer>
-            {(context) => {
-                const propsWithContext = {...props,context}
-                return <LoginContainer {...propsWithContext}/>
-            }}
-        </LoggedInContext.Consumer>
+  
+        <WebSocketsContext.Consumer>
+        {(ws) => {
+            return (
+                <LoggedInContext.Consumer>
+                    {(context) => {
+                        
+                        const propsWithContext = {...props,context, ws}
+                        return <LoginContainer {...propsWithContext}/>
+                    }}
+                </LoggedInContext.Consumer>
+            )
+            }
+        }
+            
+          </WebSocketsContext.Consumer>
     )
 }
 export default Test;

@@ -1,5 +1,5 @@
 import React from "react";
-import {LoggedInConsumer} from "../components/UserLoginContext";
+// import {LoggedInConsumer} from "../components/UserLoginContext";
 // import { LoggedInContext } from "../components/UserLoginContext"
 
 const LoginComponent = props => {
@@ -11,11 +11,11 @@ const LoginComponent = props => {
         showPassword,
         logginError,
     } = props;
-    const{ isLoggedIn }=LoggedInConsumer()
+    // const{ isLoggedIn }=LoggedInConsumer()
     
     return (
         <div>
-            <div>Is logged In: {isLoggedIn}</div>
+            {/* <div>Is logged In: {isLoggedIn}</div> */}
             <form onSubmit={handleSubmit}>
                 <label>
                     User name

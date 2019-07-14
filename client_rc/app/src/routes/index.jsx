@@ -1,6 +1,6 @@
-import React from "react";
+import React, { Fragment } from "react";
 import {
-    BrowserRouter as Router,
+    // BrowserRouter as Router,
     Route,
     Switch,
 } from "react-router-dom";
@@ -16,15 +16,13 @@ import PrimaryNav from "../components/Navigation/PrimaryNavigation";
 import About from "../About"
 import PrimeDrawer from "../components/Navigation/Drawer"; 
 
-
 function Index() {
     return <h2>Home</h2>;
 }
-
 const AppRouter = () => {
     return (
        
-        <Router>
+        <Fragment>
             <PrimeDrawer/>
             <PrimaryNav/>
             <div>
@@ -45,8 +43,8 @@ const AppRouter = () => {
                     </Switch>
                 </ScrollToTop>
             </div>
-            
-        </Router>
+        </Fragment> 
+       
         
     );
 };

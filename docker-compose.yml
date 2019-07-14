@@ -13,12 +13,12 @@ services:
         depends_on:
             - node-app
             - sample-app
-            - redis-app
+            - redis
         networks:
             - appnet
     certbot:
         image: certbot/certbot
-    redis-app:
+    redis:
         container_name: cache
         build:
             context: ./redis
@@ -58,11 +58,11 @@ services:
             - "./server:/usr/src/server"
             - "./server/node_modules:/usr/src/server/node_modules"
         environment:
-            - REDIS_URL=redis-app://cache
+            - REDIS_URL=redis://cache
             - NODE_ENV=${NODE_ENV}
         depends_on:
             - mysql-db
-            - redis-app
+            - redis
         networks:
             - appnet
     sample-app:

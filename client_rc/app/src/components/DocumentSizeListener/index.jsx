@@ -8,7 +8,6 @@ const ViewPortSizeContext = createContext();
     widthSize:null,
   };
   componentDidUpdate(prevProps, prevState) {
-      // console.log(this.state)
      if (prevState.windowWidth !== this.state.windowWidth || prevState.windowHeight !== this.state.windowHeight) {
          console.log(this.state.windowHeight, this.state.windowHeight)
      }

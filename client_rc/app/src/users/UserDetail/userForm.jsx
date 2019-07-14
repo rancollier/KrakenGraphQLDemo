@@ -4,16 +4,16 @@ import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
+import FormControl from '@material-ui/core/FormControl';
 export default function AddressForm(props) {
     const {firstName, lastName, email} = props.data.user;
   return (
-    <React.Fragment>
+    <FormControl>
       <Typography variant="h6" gutterBottom>
-        Shipping address
+        User Info
       </Typography>
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
+      <Grid container spacing={12}>
+        <Grid item xs={12} sm={6}></Grid>
           <TextField
             required
             id="firstName"
@@ -106,7 +106,6 @@ export default function AddressForm(props) {
             label="Use this address for payment details"
           />
         </Grid>
-      </Grid>
-    </React.Fragment>
+    </FormControl>
   );
 }

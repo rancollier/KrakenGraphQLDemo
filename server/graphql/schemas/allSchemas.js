@@ -1,7 +1,8 @@
 const graphql = require("graphql");
 const { products, users } = require("../../db/models");
-const {UserType, UserLoggedINType, ProductType} = require("./types");
+const {UserType, UserLoggedINType, ProductType, EQPStatusType} = require("./types");
 const graphqlFields = require('graphql-fields');
+const {eqpStatusData} = require("./data");
 const {
     GraphQLObjectType ,
     GraphQLFloat,
@@ -102,6 +103,12 @@ const {
                 })
             }
         },
+        eqpStatus: {
+            type: new GraphQLList(EQPStatusType),
+            resolve(parentValue, args, request, info) {
+                return eqpStatusData;
+            }
+        }
      }
     
  })

@@ -12,12 +12,12 @@ class ProductDetail extends React.Component {
         const product = (isNew) ? {} : props.query.product;
         this.state = {
             isNew,
-            product
+            product,
+            eqpStatusSelect: props.query.eqpStatus
         };
     }
     
     handleChange = evt => {
-        console.log(evt);
         const field = evt.target.name;
         const value = evt.target.value;
         this.setState({ product: { ...this.state.product, [field]: value } });
@@ -40,6 +40,7 @@ class ProductDetail extends React.Component {
                 </div>
                 <Form
                     isNew={this.state.isNew}
+                    eqpStatusSelect={this.state.eqpStatusSelect}
                     product={this.state.product}
                     handleChange={this.handleChange}
                     handleSave={this.handleSave}
@@ -84,20 +85,35 @@ const GET_PRODUCT_BY_ID = gql`
             eqpStatus
             version
             cost
+        },
+        eqpStatus {
+            displayName
+            EQPStatus
         }
     }
 `;
+const GET_DATA_FOR_NEW_PRODUCT = gql`
+    query {
+        eqpStatus {
+            displayName
+            EQPStatus
+        }
+    }
+`
 
 const Provider = props => {
-    const productId = props.match.params.id;
+    const productId = props.match.path.includes("/new") ? "":props.match.params.id;
+    const query = props.match.path.includes("/new") ? GET_DATA_FOR_NEW_PRODUCT : GET_PRODUCT_BY_ID;
+
     return (
         <Query 
-            query={GET_PRODUCT_BY_ID}
+            query={query}
             variables={{ productId }}
-            skip={props.match.path.includes("/new")}
+            // skip={props.match.path.includes("/new")}
         >
             {({ loading, error, data }) => {
-                const product = data
+                const productData = data
+                
                 if (loading) return "Loading...";
                 if (error) return `Error! ${error.message}`;
                 return (
@@ -111,7 +127,7 @@ const Provider = props => {
                                         // updatedProduct={updatedProduct}
                                         addedProduct={addedProduct}
                                         updateProduct={updateProduct}
-                                        query={product}
+                                        query={productData}
                                         loading={loading}
                                         addProduct={addProduct}
                                     />

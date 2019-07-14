@@ -15,9 +15,9 @@ router.use("/", (req, res, next) => {
 router.get("/", function(req, res, next) {
 
     try {
-        const userId = request.user.dataValues.id;
+        const userId = req.user.dataValues.id;
         const role = ([1,2,109].includes(userId)) ? "admin" : "user";
-        return res.json(request.user.dataValues)
+        return res.json(req.user.dataValues)
     }
     catch(error) {
         res.send(401, 'Not logged in');

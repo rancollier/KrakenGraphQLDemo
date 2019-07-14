@@ -7,16 +7,20 @@ const schema = require("./graphql/schemas/allSchemas");
 const api = require("./api");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
-// const app = express();
-// const server = require('http').Server(app);
-
-var app = require('express')();
-var server = require('http').Server(app);
-// var io = require('socket.io')(server);
-console.log("setup socket.io")
-const io = require('socket.io')(server,{
+const app = require('express')();
+const server = require('http').Server(app);
+const redisAdapter = require('socket.io-redis');
+ 
+var io = require('./sockets').initialize(server,{
   path: '/chat/socket.io'
-});
+}).adapter(redisAdapter(`${process.env.REDIS_URL}`));
+// io.adapter(redisAdapter(`${process.env.REDIS_URL}`))
+// io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
+module.exports.io = io;
+require("./sockets/consumer")(io)
+// const io = require('socket.io')(server,{
+//   path: '/chat/socket.io'
+// });
 server.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
 
 
@@ -39,15 +43,10 @@ app.use(cookieParser());
 const keys = ["keyboard cat"];
 
 io.use((socket, next)=>{
-  console.log("socket", socket)
   next()
 })
-io.on('connection', function (socket) {
-  console.log("WS CONNECT")
-  socket.emit('hello', 'can you hear me?', 1, 2, 'abc'); // emit an event to the socket
-  io.emit('broadcast', {msg:'hi'}); // emit an event to all connected sockets
-});
- 
+
+
 app.get("/", (req, res) => res.send("Hello World!"));
 
 app.use('/graphql', (req, res, next) => {
@@ -67,6 +66,8 @@ app.use(
         
     })
 );
+
+
 app.use("/api", api);
 app.use(function(err, req, res, next) {
     if (req.xhr) {
