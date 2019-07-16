@@ -6,6 +6,7 @@ import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import InputLabel from '@material-ui/core/InputLabel';
 
 export default function AddressForm(props) {
   const {product, handleChange, handleSave, handleCreate, isNew, eqpStatusSelect} = props;
@@ -51,17 +52,22 @@ export default function AddressForm(props) {
           />
         </Grid>
         <Grid item xs={12} sm={3}>
-          <Select
-            name="eqpStatus"
-            value={product.eqpStatus}
-            onChange={handleChange}
-          >
-            
-            {eqpStatusSelect.map((eqpStatusItem, index)=> {
-             const {displayName, eqpStatus} = eqpStatusItem;
-              return (<MenuItem value={displayName} key={index}>{displayName}</MenuItem>)
-            })} 
-          </Select>
+          <FormControl style={{minWidth:"120px"}} >
+            <InputLabel htmlFor="eqpStatus">EQP Status</InputLabel>
+            <Select
+              label="EQP Status"
+              id="eqpStatus"
+              name="eqpStatus"
+              value={product.eqpStatus}
+              onChange={handleChange}
+            >
+              
+              {eqpStatusSelect.map((eqpStatusItem, index)=> {
+              const {displayName, eqpStatus} = eqpStatusItem;
+                return (<MenuItem value={displayName} key={index}>{displayName}</MenuItem>)
+              })} 
+            </Select>
+          </FormControl>
         </Grid>
         <Grid item xs={12} sm={3}>
           <TextField

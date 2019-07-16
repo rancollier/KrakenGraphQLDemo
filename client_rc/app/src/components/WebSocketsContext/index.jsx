@@ -35,6 +35,7 @@ const WebSocketsProvider = props => {
     socket.on(WS_UPDATE_PRODUCTS, updateProducts);
 
     socket.on(WS_LOGGED_IN, (msg)=>{
+        console.error("get only once")
         alert(msg)
     })
     const updateProduct = data => {
@@ -51,6 +52,7 @@ const WebSocketsProvider = props => {
     };
     socket.on("disconect", wsDisconnect);
     const emitILoggedIn= (name) =>{
+        console.log('emit once WS_LOGGED_IN: ', WS_LOGGED_IN)
         return socket.emit(WS_LOGGED_IN, name)
     }
     const value = { socket, emitILoggedIn}

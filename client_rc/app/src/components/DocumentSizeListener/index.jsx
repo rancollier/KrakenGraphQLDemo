@@ -7,6 +7,7 @@ const ViewPortSizeContext = createContext();
     windowHeight:null,
     widthSize:null,
   };
+  
   componentDidUpdate(prevProps, prevState) {
      if (prevState.windowWidth !== this.state.windowWidth || prevState.windowHeight !== this.state.windowHeight) {
          console.log(this.state.windowHeight, this.state.windowHeight)
@@ -14,7 +15,6 @@ const ViewPortSizeContext = createContext();
   }
   
   componentDidMount() {
-      console.log('did mount')
     window.addEventListener('resize', this.handleResize);
   }
 
@@ -25,10 +25,8 @@ const ViewPortSizeContext = createContext();
   handleResize = (e) => {
     this.setState({windowWidth: window.innerWidth, windowHeight: window.innerHeight});
   }
-  
 
-
-render() {
+  render() {
     return <ViewPortSizeContext.Provider value={this.state} >{this.props.children}</ViewPortSizeContext.Provider>
   }
 
