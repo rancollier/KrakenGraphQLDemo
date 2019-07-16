@@ -57,9 +57,9 @@ export default function AddressForm(props) {
             onChange={handleChange}
           >
             
-            {eqpStatusSelect.map((eqpStatusItem)=> {
+            {eqpStatusSelect.map((eqpStatusItem, index)=> {
              const {displayName, eqpStatus} = eqpStatusItem;
-              return (<MenuItem value={displayName}>{displayName}</MenuItem>)
+              return (<MenuItem value={displayName} key={index}>{displayName}</MenuItem>)
             })} 
           </Select>
         </Grid>

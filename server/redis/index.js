@@ -15,9 +15,9 @@ client.setTokenToBlacklist = (token, expiration) => {
     redisClient.set(token, token, "EX", expSec);
 };
 client.isTokenBlackListed = token => {
+    console.log("client.isTokenBlackListed")
     return new Promise((resolver, reject) => {
         client.get(token, response => {
-            debugger;
             if (response) {
                 resolver(response);
             }

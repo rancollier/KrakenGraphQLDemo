@@ -112,7 +112,6 @@ const resolvers = {
   },
   Mutation: {
       updateProduct: (parent, args, request, info) => {
-          debugger;
         try {
             console.log(request.user)
             const userId = request.user.dataValues.id;

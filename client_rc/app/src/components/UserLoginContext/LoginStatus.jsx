@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React from "react";
 import {withRouter} from "react-router-dom";
 import urls from "../../components/api/url";
 import Api from "../../components/api";
