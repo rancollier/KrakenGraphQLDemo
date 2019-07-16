@@ -37,7 +37,7 @@ class UserDetail extends React.Component {
 
 
 const GET_USER_BY_ID = gql`
-  query User($userId: String!) {
+  query User($userId: ID!) {
     user(id: $userId) {
       id
       firstName,

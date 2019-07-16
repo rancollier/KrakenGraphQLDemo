@@ -64,7 +64,7 @@ const ADD_PRODUCT = gql`
 `;
 
 const UPDATE_PRODUCT = gql`
-    mutation UpdateProduct( $id: String!, $title: String!, $description: String, $eqpStatus: String, $cost: Float, $version: String) {
+    mutation UpdateProduct( $id: ID!, $title: String!, $description: String, $eqpStatus: String, $cost: Float, $version: String) {
         updateProduct(id: $id, title: $title, description: $description, eqpStatus: $eqpStatus, cost: $cost, version: $version ) {
             id
             title
@@ -77,7 +77,7 @@ const UPDATE_PRODUCT = gql`
 `;
 
 const GET_PRODUCT_BY_ID = gql`
-    query Product($productId: String!) {
+    query Product($productId: ID!) {
         product(id: $productId) {
             id
             title
@@ -118,8 +118,9 @@ const Provider = props => {
                 if (error) return `Error! ${error.message}`;
                 return (
                     <Mutation mutation={UPDATE_PRODUCT}>
-                        {(updateProduct)=> (
-                            <Mutation mutation={ADD_PRODUCT}>
+                        {(updateProduct, ...stuff)=> {
+                            console.log(stuff)
+                            return ( <Mutation mutation={ADD_PRODUCT}>
                                 {(addProduct, { data:addedProduct })=> (
                                     <ProductDetail
                                         {...props}
@@ -132,8 +133,8 @@ const Provider = props => {
                                         addProduct={addProduct}
                                     />
                                 )}
-                            </Mutation>
-                        )}
+                            </Mutation>)    
+                        }}
                     </Mutation>
                 );
             }}

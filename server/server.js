@@ -1,9 +1,11 @@
 const PORT = 3030;
-const express = require("express");
+
 const session = require("cookie-session");
 const helmet = require("helmet");
-const expressGraphQL = require("express-graphql");
-const schema = require("./graphql/schemas/allSchemas");
+var compression = require('compression')
+const { ApolloServer, gql, rewriteError, AuthenticationError } = require('apollo-server-express');
+const { typeDefs, resolvers } = require('./graphql/apolloSchema');
+
 const api = require("./api");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
@@ -14,13 +16,9 @@ const redisAdapter = require('socket.io-redis');
 var io = require('./sockets').initialize(server,{
   path: '/chat/socket.io'
 }).adapter(redisAdapter(`${process.env.REDIS_URL}`));
-// io.adapter(redisAdapter(`${process.env.REDIS_URL}`))
-// io.adapter(redisAdapter({ host: 'localhost', port: 6379 }));
 module.exports.io = io;
 require("./sockets/consumer")(io)
-// const io = require('socket.io')(server,{
-//   path: '/chat/socket.io'
-// });
+
 server.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
 
 
@@ -36,7 +34,7 @@ app.set('trust proxy', 1) // trust first proxy
 
 
 
-// app.use(compress());
+app.use(compression());
 app.use(cors());
 app.use(helmet());
 app.use(cookieParser());
@@ -58,15 +56,27 @@ app.use('/graphql', (req, res, next) => {
     })(req, res, next)
   })
 
-app.use(
-    "/graphql",
-    expressGraphQL({
-        schema,
-        graphiql: true,
-        
-    })
-);
-
+  const graphqlServer = new ApolloServer({
+    // These will be defined for both new or existing servers
+    typeDefs,
+    resolvers,
+    context: ({req}) => {
+     if(req.user) {
+       return {user: req.user}
+     }
+        console.log(req.user)
+    },
+    engine: {
+      rewriteError(err) {
+        // Return `null` to avoid reporting `AuthenticationError`s
+        if (err instanceof AuthenticationError) {
+          return null;
+        }
+        // All other errors will be reported.
+        return err;
+      }
+    },
+  });
 
 app.use("/api", api);
 app.use(function(err, req, res, next) {
@@ -76,4 +86,5 @@ app.use(function(err, req, res, next) {
         next(err);
     }
 });
-// app.listen(PORT, () => console.log(`Example app listening on port ${PORT}!`));
+
+ graphqlServer.applyMiddleware({ app })
