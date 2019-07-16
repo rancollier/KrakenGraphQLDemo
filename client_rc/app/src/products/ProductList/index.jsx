@@ -4,6 +4,8 @@ import urls from "../../components/api/url";
 import { Link } from "react-router-dom";
 import { H1 } from "../../components/syles/typography";
 import Paper from "../../components/layout/paper";
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
 import Loader from "./loader";
 import {AppStateConsumer} from "../../components/AppContext";
 
@@ -50,21 +52,23 @@ class Products extends React.Component {
                     <Paper>
                         {this.state.isFetching && <H1>is fetching</H1>}
                         {!this.state.isFetching && <H1>is not fetching</H1>}
-                        { products.length &&
-                            products.map((product, index) => {
-                                return (<div key={product.id}>
-                                    <Link to={`${path}/${product.id}`} >{product.title} </Link>
-                                </div>);
-                            })
-                        }
-
-                        {/* {this.state.items.length &&
-                            this.state.items.map((product, index) => {
-                                return (<div key={product.id}>
-                                <Link to={`${path}/${product.id}`} >{product.title} </Link>
-                                </div>);
-                            })
-                        } */}
+                        <List>
+                            { products.length &&
+                                products.map((product, index) => {
+                                    return (
+                                        <ListItem
+                                        button
+                                        key={index}
+                                    
+                                    component={Link}
+                                    to={`${path}/${product.id}`}
+                                    >
+                                    {product.title}  
+                                    </ListItem>
+                                );
+                                })
+                            }
+                        </List>
                     </Paper>
                 </Fragment>
             // </Loader>
